@@ -18,14 +18,14 @@ python -m http.server 8080
 ## Verificar a regra (teste real, sem IA)
 
 `test-v1.mjs` extrai o `<script>` do `index.html` e roda o `filtrar` de verdade
-no Node, com 12 asserções (ordenação, exclusão por teto, vazios honestos,
+no Node, com 14 asserções (ordenação, exclusão por teto, vazios honestos,
 cobertura total, sem duplicatas):
 
 ```powershell
 node test-v1.mjs
 ```
 
-## O que a v1 contém (v1.4: catálogo completo, 75 serviços)
+## O que a v1 contém (v1.5: 101 serviços, 3 packs novos)
 
 - Abertura enxuta: título + 1 linha. Sem kicker institucional, sem fórmula
   interna exposta (o passo a passo continua em "Como chegamos aqui").
@@ -33,11 +33,15 @@ node test-v1.mjs
   **pré-selecionados**: o site abre já com recomendação na tela.
   Áreas: site · app/API · banco de dados · arquivos · analisar dados ·
   rede e entrega · treino de IA.
-- Catálogo com **75 serviços** (AWS 27 · Azure 25 · Google Cloud 22 · Google 1),
-  cobrindo compute, containers, serverless, filas, armazenamento, bancos,
-  rede/CDN/DNS, analytics e IA/ML de cada provedor. Curadoria via enxame de
-  subagents (nomes/URLs) + conferência manual dos níveis gratuitos; amostra de
-  5 links oficiais verificada com retorno 2xx.
+- Catálogo com **101 serviços** (AWS 34 · Azure 29 · Google Cloud 30 ·
+  Firebase 4 · Google 4), cobrindo compute, containers, serverless, filas,
+  armazenamento, bancos, rede/CDN/DNS, analytics, segurança base e IA/ML.
+  Packs novos: Firebase/Google (Auth, RTDB, FCM, Crashlytics, Kaggle,
+  Looker Studio, Maps), segurança (KMS, Shield, Secrets, ACM, Sentinel,
+  Defender, Armor, SCC, certificados) e dados (Glue, QuickSight, OpenSearch,
+  AlloyDB, HDInsight, Data Explorer, Dataproc, Dataform, API Gateway).
+  Curadoria via enxame de subagents (nomes/termos/URLs) + conferência manual;
+  6 links oficiais verificados com retorno 2xx nesta rodada.
 - Snapshot de preços: **out/2026**, valores aproximados em R$ para uso pequeno
   (conversão aproximada de USD 1 ≈ R$ 5,50). Cada linha liga a página oficial
   de preços/docs — confirme sempre lá.
