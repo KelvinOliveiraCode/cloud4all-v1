@@ -18,24 +18,28 @@ python -m http.server 8080
 ## Verificar a regra (teste real, sem IA)
 
 `test-v1.mjs` extrai o `<script>` do `index.html` e roda o `filtrar` de verdade
-no Node, com 17 asserções (ordenação, exclusão por teto, vazios honestos,
+no Node, com 19 asserções (ordenação, exclusão por teto, vazios honestos,
 filtros de provedor/gratuidade/nível/ordem, cobertura total, sem duplicatas):
 
 ```powershell
 node test-v1.mjs
 ```
 
-## O que a v1 contém (v1.6: aba Filtros, sem lateral)
+## O que a v1 contém (v1.7: inicial explicativa + 3 provedores)
 
 - Abertura enxuta: título + 1 linha. Sem kicker institucional, sem fórmula
   interna exposta (o passo a passo continua em "Como chegamos aqui").
-- Sem lateral: o Início tem chamada, recomendação e conversa. Os filtros moram
-  na aba **Filtros** (ao lado de Catálogo): negócio · preço · provedor ·
-  gratuidade · nível (iniciante/já usei/qualquer) · ordem (menor preço ou mais
-  simples). A aba mostra a contagem e a tabela completa dos matches, com a
-  primeira linha marcada como ideal.
-- Todo nome de nuvem é link para a página do serviço no provedor
-  (recomendação, alternativas, filtros e catálogo).
+- Inicial explicativa (sem busca, sem CTA): por que a Cloud4All existe,
+  o que é nuvem e por que democratizar o acesso. A busca mora na aba Filtros.
+- Aba **Filtros**: negócio · preço · provedor · gratuidade · nível · ordem,
+  com contagem e tabela completa (primeira linha marcada como ideal).
+- Todo nome de nuvem é link para a página do serviço no provedor.
+- Preços calibrados: entradas de GPU/IA por hora de uso (não mensalidade
+  cheia); filtro "Conforme o uso" removido (duplicava o "Qualquer preço");
+  último grupo do catálogo virou "Entrada acima de R$ 100".
+- **124 serviços** em 8 marcas: entram **Oracle Cloud** (8, Always Free),
+  **Cloudflare** (8, plano grátis) e **DigitalOcean** (7, preço fixo).
+  Números da DO conferidos na página oficial de preços.
 - Filtros com **"Qualquer um"** (negócio) e **"Qualquer preço"**
   **pré-selecionados**: o site abre já com recomendação na tela.
   Áreas: site · app/API · banco de dados · arquivos · analisar dados ·

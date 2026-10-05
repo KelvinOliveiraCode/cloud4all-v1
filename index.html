@@ -58,8 +58,6 @@
   .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:20px 0 8px}
   .fgrid .step{margin-bottom:0}
   .count{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--ink-3);margin:14px 0 10px}
-  .cta{display:inline-block;margin-top:16px;background:var(--ink);color:var(--paper);text-decoration:none;font-weight:500;font-size:.95rem;padding:12px 26px;border-radius:9px}
-  .cta:hover{background:var(--dark-2)}
   .step{border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:14px;background:var(--paper)}
   .step.done{border-color:var(--ink)}
   .step-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--ink-3)}
@@ -213,20 +211,46 @@
 <div class="wrap">
 <section class="tabpanel active" id="inicio" role="tabpanel" aria-labelledby="tab-inicio" tabindex="0">
 <div class="page">
-    <h1>Ache a <strong>nuvem ideal</strong> em dois cliques.</h1>
-    <p class="lede">Diga o que você quer e quanto pode gastar. A página filtra as nuvens de AWS, Azure, Google Cloud, Firebase e Google e mostra a conta aberta.</p>
-    <p><a class="cta" href="#filtros">Encontrar minha nuvem</a></p>
+    <h1>A Cloud4All existe para facilitar o acesso a serviços que utilizem <strong>nuvem</strong>.</h1>
+    <p class="lede">Você diz o que quer fazer e quanto pode gastar. A página traduz isso para a nuvem certa, com preço em reais e link oficial.</p>
 
-    <div id="resultado" aria-live="polite">
-      <div class="res-head">
-        <h2>Sua recomendação</h2>
-      </div>
-      <div class="res-body" id="res-body">
-        <div class="empty">
-          <p>Abra a <strong>aba Filtros</strong> para ajustar negócio, preço, provedor e nível. A recomendação aparece aqui com o motivo e as alternativas.</p>
+    <section class="block">
+      <h2>O que é <strong>nuvem</strong></h2>
+      <p class="sub">Nuvem é alugar computador de empresas grandes em vez de comprar máquina.</p>
+      <div class="cols">
+        <div class="card">
+          <h3>Alugar em vez de comprar</h3>
+          <p>Servidor, espaço para arquivos e banco de dados ficam em centros de dados de empresas como Amazon, Microsoft e Google. Você usa tudo pela internet.</p>
+        </div>
+        <div class="card">
+          <h3>Paga o que usa</h3>
+          <p>Tem serviço que sai de graça para sempre e serviço que cobra por hora, por clique ou por gigabyte. O preço depende do tamanho do seu uso.</p>
+        </div>
+        <div class="card">
+          <h3>Exemplos do dia a dia</h3>
+          <p>Loja na internet, fotos guardadas, sistema da escola, app no celular: quase tudo isso roda em nuvem.</p>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="block">
+      <h2>Por que <strong>democratizar</strong></h2>
+      <p class="sub">Escolher nuvem hoje exige inglês, jargão e paciência para comparar tabelas de preço.</p>
+      <div class="cols">
+        <div class="card">
+          <h3>Quem trava</h3>
+          <p>Estudante, MEI e pequeno negócio: gente que sabe o que quer fazer, mas não fala "instância", "bucket" ou "vCPU".</p>
+        </div>
+        <div class="card">
+          <h3>O que dá errado</h3>
+          <p>Paga caro demais por medo, contrata errado e desiste, ou nem sai do papel por achar que nuvem é coisa de empresa grande.</p>
+        </div>
+        <div class="card">
+          <h3>O que a Cloud4All faz</h3>
+          <p>Traduz o pedido em opção concreta: nome do serviço, faixa de preço em reais, nível de dificuldade e link oficial. Sem cadastro, sem número inventado.</p>
+        </div>
+      </div>
+    </section>
 
     <div id="chat">
       <div class="chat-head">
@@ -248,7 +272,7 @@
 <div class="page">
     <section class="block">
       <h2>Catálogo <strong>por preço</strong></h2>
-      <p class="sub">Todos os 101 serviços desta v1, só dos provedores do projeto (AWS, Azure, Google Cloud, Firebase e Google), agrupados pela faixa em que um uso pequeno se encaixa. Snapshot de <span class="mono">out/2026</span>; valores aproximados em reais — confirme sempre na página oficial ligada em cada linha.</p>
+      <p class="sub">Todos os 124 serviços desta v1 — AWS, Azure, Google Cloud, Oracle Cloud, Cloudflare, DigitalOcean, Firebase e Google — agrupados pela faixa em que um uso pequeno se encaixa. Snapshot de <span class="mono">out/2026</span>; valores aproximados em reais — confirme sempre na página oficial ligada em cada linha.</p>
       <div id="tiers"></div>
     </section>
 </div>
@@ -279,7 +303,6 @@
         <button type="button" data-preco="gratis" aria-pressed="false">Gratuito</button>
         <button type="button" data-preco="ate50" aria-pressed="false">Até R$ 50</button>
         <button type="button" data-preco="ate100" aria-pressed="false">Até R$ 100</button>
-        <button type="button" data-preco="por-uso" aria-pressed="false">Conforme o uso</button>
       </div>
     </div>
     <div class="step" id="step-prov">
@@ -289,6 +312,9 @@
         <button type="button" data-prov="AWS" aria-pressed="false">AWS</button>
         <button type="button" data-prov="Azure" aria-pressed="false">Azure</button>
         <button type="button" data-prov="Google Cloud" aria-pressed="false">Google Cloud</button>
+        <button type="button" data-prov="Oracle Cloud" aria-pressed="false">Oracle Cloud</button>
+        <button type="button" data-prov="Cloudflare" aria-pressed="false">Cloudflare</button>
+        <button type="button" data-prov="DigitalOcean" aria-pressed="false">DigitalOcean</button>
         <button type="button" data-prov="Firebase" aria-pressed="false">Firebase</button>
         <button type="button" data-prov="Google" aria-pressed="false">Google</button>
       </div>
@@ -331,10 +357,10 @@
         <div class="card">
           <h3>O filtro</h3>
           <ol>
-            <li>Fica só quem atende a <strong>área</strong> escolhida.</li>
-            <li>No modo <strong>Gratuito</strong>, fica só quem é grátis para sempre. Nas outras faixas, fica quem começa dentro do teto.</li>
-            <li>Ordena por <strong>menor custo</strong>; empate resolve pelo <strong>mais simples</strong> de configurar.</li>
-            <li>A primeira da fila é a <strong>nuvem ideal</strong>; as duas seguintes são as alternativas.</li>
+            <li>Fica só quem atende a <strong>área</strong> e cabe no <strong>preço</strong> escolhidos.</li>
+            <li><strong>Provedor</strong>, <strong>gratuidade</strong> e <strong>nível</strong> refinam: no modo Iniciante, só entra o que se configura por telas guiadas.</li>
+            <li>Ordena por <strong>menor preço</strong> ou <strong>mais simples</strong>, você escolhe; empate resolve pelo outro critério.</li>
+            <li>A primeira da fila é a <strong>nuvem ideal</strong>; o resto aparece na tabela da aba Filtros.</li>
           </ol>
         </div>
         <div class="card">
@@ -360,7 +386,7 @@
       <div class="cols">
         <div class="card">
           <h3>Provedores desta v1</h3>
-          <p>Somente os citados no resumo do projeto: <strong>AWS</strong>, <strong>Azure</strong> e <strong>Google Cloud</strong>. Outros provedores e níveis gratuitos generosos entram nas próximas versões, com a mesma curadoria.</p>
+          <p><strong>AWS</strong>, <strong>Azure</strong>, <strong>Google Cloud</strong>, <strong>Oracle Cloud</strong>, <strong>Cloudflare</strong>, <strong>DigitalOcean</strong>, <strong>Firebase</strong> e <strong>Google</strong>: só empresas grandes e conhecidas, cada uma com link oficial em cada serviço.</p>
         </div>
         <div class="card">
           <h3>Roteiro</h3>
@@ -401,11 +427,11 @@ const CATALOGO = [
   {id:"gcp-cloud-sql", provedor:"Google Cloud", nome:"Cloud SQL", areas:["banco"], gratis:"nao", min:50, max:180, complexidade:3, frase:"MySQL e Postgres gerenciados no Google", gratuidade:"Sem nível gratuito permanente", doc:"https://cloud.google.com/sql/docs", preco:"https://cloud.google.com/sql/pricing"},
   /* --- treinamento de IA --- */
   {id:"aws-sagemaker", provedor:"AWS", nome:"SageMaker", areas:["ia"], gratis:"temporario", min:0, max:400, complexidade:4, frase:"treino gerenciado, grátis no começo e por hora depois", gratuidade:"250 h grátis nos 2 primeiros meses", doc:"https://aws.amazon.com/pt/sagemaker/", preco:"https://aws.amazon.com/pt/sagemaker/pricing/"},
-  {id:"azure-ml", provedor:"Azure", nome:"Azure Machine Learning", areas:["ia"], gratis:"nao", min:80, max:800, complexidade:4, frase:"estúdio de treino, paga a máquina por hora", gratuidade:"Área de trabalho grátis; computação paga", doc:"https://azure.microsoft.com/pt-br/products/machine-learning", preco:"https://azure.microsoft.com/pt-br/pricing/details/machine-learning/"},
-  {id:"gcp-vertex", provedor:"Google Cloud", nome:"Vertex AI", areas:["ia"], gratis:"nao", min:40, max:700, complexidade:4, frase:"treino e ajuste de modelos por hora de máquina", gratuidade:"Sem nível gratuito permanente", doc:"https://cloud.google.com/vertex-ai/docs", preco:"https://cloud.google.com/vertex-ai/pricing"},
-  {id:"azure-openai", provedor:"Azure", nome:"Azure OpenAI / Foundry", areas:["ia"], gratis:"nao", min:30, max:600, complexidade:3, frase:"usa modelo pronto por chamada, sem treinar", gratuidade:"Sem nível gratuito permanente", doc:"https://azure.microsoft.com/pt-br/products/ai-services/openai-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/cognitive-services/openai-service/"},
-  {id:"aws-ec2-gpu", provedor:"AWS", nome:"EC2 com GPU", areas:["ia"], gratis:"nao", min:150, max:1500, complexidade:5, frase:"máquina com placa de vídeo, a mais técnica e cara", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/ec2/instance-types/", preco:"https://aws.amazon.com/pt/ec2/pricing/on-demand/"},
-  {id:"gcp-gpu", provedor:"Google Cloud", nome:"Compute Engine com GPU", areas:["ia"], gratis:"nao", min:120, max:1200, complexidade:5, frase:"máquina com GPU no Google, cobra por minuto", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/compute/docs/gpus", preco:"https://cloud.google.com/compute/pricing"},
+  {id:"azure-ml", provedor:"Azure", nome:"Azure Machine Learning", areas:["ia"], gratis:"nao", min:20, max:800, complexidade:4, frase:"estúdio de treino, paga a máquina por hora", gratuidade:"Área de trabalho grátis; computação paga", doc:"https://azure.microsoft.com/pt-br/products/machine-learning", preco:"https://azure.microsoft.com/pt-br/pricing/details/machine-learning/"},
+  {id:"gcp-vertex", provedor:"Google Cloud", nome:"Vertex AI", areas:["ia"], gratis:"nao", min:10, max:700, complexidade:4, frase:"treino e ajuste de modelos por hora de máquina", gratuidade:"Sem nível gratuito permanente", doc:"https://cloud.google.com/vertex-ai/docs", preco:"https://cloud.google.com/vertex-ai/pricing"},
+  {id:"azure-openai", provedor:"Azure", nome:"Azure OpenAI / Foundry", areas:["ia"], gratis:"nao", min:5, max:600, complexidade:3, frase:"usa modelo pronto por chamada, sem treinar", gratuidade:"Sem nível gratuito permanente", doc:"https://azure.microsoft.com/pt-br/products/ai-services/openai-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/cognitive-services/openai-service/"},
+  {id:"aws-ec2-gpu", provedor:"AWS", nome:"EC2 com GPU", areas:["ia"], gratis:"nao", min:30, max:1500, complexidade:5, frase:"máquina com placa de vídeo, a mais técnica e cara", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/ec2/instance-types/", preco:"https://aws.amazon.com/pt/ec2/pricing/on-demand/"},
+  {id:"gcp-gpu", provedor:"Google Cloud", nome:"Compute Engine com GPU", areas:["ia"], gratis:"nao", min:30, max:1200, complexidade:5, frase:"máquina com GPU no Google, cobra por minuto", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/compute/docs/gpus", preco:"https://cloud.google.com/compute/pricing"},
   /* --- rodar app ou API --- */
   {id:"aws-lambda", provedor:"AWS", nome:"Lambda", areas:["app"], gratis:"sempre", min:0, max:40, complexidade:3, frase:"roda seu código sem servidor, paga por execução", gratuidade:"1 milhão de execuções/mês sempre grátis", doc:"https://aws.amazon.com/pt/lambda/", preco:"https://aws.amazon.com/pt/lambda/pricing/"},
   {id:"azure-functions", provedor:"Azure", nome:"Functions", areas:["app"], gratis:"sempre", min:0, max:40, complexidade:3, frase:"código sob demanda com cota mensal gratuita", gratuidade:"1 milhão de execuções/mês grátis", doc:"https://azure.microsoft.com/pt-br/products/functions", preco:"https://azure.microsoft.com/pt-br/pricing/details/functions/"},
@@ -432,7 +458,7 @@ const CATALOGO = [
   {id:"aws-redshift", provedor:"AWS", nome:"Redshift", areas:["dados"], gratis:"nao", min:200, max:800, complexidade:4, frase:"armazém de dados para relatórios grandes", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/redshift/", preco:"https://aws.amazon.com/pt/redshift/pricing/"},
   {id:"aws-emr", provedor:"AWS", nome:"EMR", areas:["dados"], gratis:"nao", min:100, max:500, complexidade:5, frase:"processa volumes gigantes de dados", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/emr/", preco:"https://aws.amazon.com/pt/emr/pricing/"},
   {id:"aws-kinesis", provedor:"AWS", nome:"Kinesis", areas:["dados"], gratis:"nao", min:30, max:150, complexidade:4, frase:"dados em tempo real, como placar ao vivo", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/kinesis/", preco:"https://aws.amazon.com/pt/kinesis/pricing/"},
-  {id:"aws-bedrock", provedor:"AWS", nome:"Bedrock", areas:["ia"], gratis:"nao", min:30, max:400, complexidade:3, frase:"usa modelos prontos de IA por chamada", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/bedrock/", preco:"https://aws.amazon.com/pt/bedrock/pricing/"},
+  {id:"aws-bedrock", provedor:"AWS", nome:"Bedrock", areas:["ia"], gratis:"nao", min:5, max:400, complexidade:3, frase:"usa modelos prontos de IA por chamada", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/bedrock/", preco:"https://aws.amazon.com/pt/bedrock/pricing/"},
   {id:"aws-rekognition", provedor:"AWS", nome:"Rekognition", areas:["ia"], gratis:"temporario", min:0, max:60, complexidade:3, frase:"reconhece rostos e objetos em fotos", gratuidade:"5 mil imagens/mês por 12 meses", doc:"https://aws.amazon.com/pt/rekognition/", preco:"https://aws.amazon.com/pt/rekognition/pricing/"},
   /* --- Azure: compute, filas, rede, dados, IA --- */
   {id:"azure-vms", provedor:"Azure", nome:"Virtual Machines", areas:["app"], gratis:"temporario", min:30, max:150, complexidade:4, frase:"máquina virtual Windows ou Linux", gratuidade:"Horas grátis para conta nova", doc:"https://azure.microsoft.com/pt-br/products/virtual-machines", preco:"https://azure.microsoft.com/pt-br/pricing/details/virtual-machines/windows/"},
@@ -497,7 +523,33 @@ const CATALOGO = [
   {id:"gcp-dataproc", provedor:"Google Cloud", nome:"Dataproc", areas:["dados"], gratis:"nao", min:50, max:300, complexidade:4, frase:"Hadoop e Spark gerenciados", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/dataproc/docs", preco:"https://cloud.google.com/dataproc/pricing"},
   {id:"gcp-dataform", provedor:"Google Cloud", nome:"Dataform", areas:["dados"], gratis:"sempre", min:0, max:10, complexidade:3, frase:"transforma dados para o BigQuery", gratuidade:"Serviço grátis, paga só o BigQuery", doc:"https://cloud.google.com/dataform/docs", preco:"https://cloud.google.com/dataform/pricing"},
   {id:"gcp-apigw", provedor:"Google Cloud", nome:"API Gateway", areas:["app"], gratis:"sempre", min:0, max:30, complexidade:3, frase:"porta de entrada da sua API", gratuidade:"2 milhões de chamadas por mês grátis", doc:"https://cloud.google.com/api-gateway/docs", preco:"https://cloud.google.com/api-gateway/pricing"},
-  {id:"gcp-alloydb", provedor:"Google Cloud", nome:"AlloyDB", areas:["banco"], gratis:"nao", min:150, max:600, complexidade:4, frase:"Postgres gerenciado de alta performance", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/alloydb/docs", preco:"https://cloud.google.com/alloydb/pricing"}
+  {id:"gcp-alloydb", provedor:"Google Cloud", nome:"AlloyDB", areas:["banco"], gratis:"nao", min:150, max:600, complexidade:4, frase:"Postgres gerenciado de alta performance", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/alloydb/docs", preco:"https://cloud.google.com/alloydb/pricing"},
+  /* --- Oracle Cloud: compute, arquivos, banco, rede --- */
+  {id:"oracle-arm", provedor:"Oracle Cloud", nome:"Compute Ampere (ARM)", areas:["app"], gratis:"sempre", min:0, max:60, complexidade:4, frase:"4 CPUs e 24 GB grátis para sempre", gratuidade:"4 OCPU + 24 GB sempre grátis", doc:"https://docs.oracle.com/en-us/iaas/Content/Compute/home.htm", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-amd", provedor:"Oracle Cloud", nome:"Compute AMD", areas:["app"], gratis:"sempre", min:0, max:30, complexidade:4, frase:"2 máquinas pequenas grátis", gratuidade:"2 VMs sempre grátis", doc:"https://docs.oracle.com/en-us/iaas/Content/Compute/home.htm", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-block", provedor:"Oracle Cloud", nome:"Block Volumes", areas:["arquivos"], gratis:"sempre", min:0, max:20, complexidade:2, frase:"200 GB de disco grátis", gratuidade:"200 GB sempre grátis", doc:"https://docs.oracle.com/en-us/iaas/Content/Block/Concepts/overview.htm", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-object", provedor:"Oracle Cloud", nome:"Object Storage", areas:["arquivos"], gratis:"sempre", min:0, max:20, complexidade:2, frase:"10 GB para guardar arquivos", gratuidade:"10 GB sempre grátis", doc:"https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-autonomous", provedor:"Oracle Cloud", nome:"Autonomous Database", areas:["banco"], gratis:"sempre", min:0, max:50, complexidade:3, frase:"2 bancos de 20 GB que se cuidam sozinhos", gratuidade:"2 bancos sempre grátis", doc:"https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-lb", provedor:"Oracle Cloud", nome:"Load Balancer", areas:["rede"], gratis:"sempre", min:0, max:30, complexidade:3, frase:"1 balanceador flexível grátis", gratuidade:"1 LB sempre grátis", doc:"https://docs.oracle.com/en-us/iaas/Content/Balance/home.htm", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-functions", provedor:"Oracle Cloud", nome:"Functions", areas:["app"], gratis:"sempre", min:0, max:20, complexidade:3, frase:"código sob demanda com cota grátis", gratuidade:"2 milhões de execuções por mês grátis", doc:"https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm", preco:"https://www.oracle.com/cloud/pricing/"},
+  {id:"oracle-mysql", provedor:"Oracle Cloud", nome:"MySQL Service", areas:["banco"], gratis:"nao", min:100, max:300, complexidade:3, frase:"MySQL gerenciado", gratuidade:"Sem nível gratuito", doc:"https://docs.oracle.com/en-us/iaas/mysql-database/index.html", preco:"https://www.oracle.com/cloud/pricing/"},
+  /* --- Cloudflare: borda, site, arquivos, banco, rede --- */
+  {id:"cf-workers", provedor:"Cloudflare", nome:"Workers", areas:["app"], gratis:"sempre", min:0, max:20, complexidade:3, frase:"código na borda, 100 mil pedidos por dia grátis", gratuidade:"100 mil requisições por dia grátis", doc:"https://developers.cloudflare.com/workers/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-pages", provedor:"Cloudflare", nome:"Pages", areas:["site"], gratis:"sempre", min:0, max:20, complexidade:1, frase:"site estático grátis com CDN junto", gratuidade:"Grátis", doc:"https://developers.cloudflare.com/pages/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-r2", provedor:"Cloudflare", nome:"R2", areas:["arquivos"], gratis:"sempre", min:0, max:20, complexidade:2, frase:"10 GB sem taxa para tirar os arquivos", gratuidade:"10 GB grátis", doc:"https://developers.cloudflare.com/r2/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-d1", provedor:"Cloudflare", nome:"D1", areas:["banco"], gratis:"sempre", min:0, max:20, complexidade:2, frase:"banco SQLite gerenciado com cota grátis", gratuidade:"Cota mensal grátis", doc:"https://developers.cloudflare.com/d1/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-kv", provedor:"Cloudflare", nome:"Workers KV", areas:["app"], gratis:"sempre", min:0, max:10, complexidade:2, frase:"chave-valor rapidinho para o app", gratuidade:"100 mil leituras por dia grátis", doc:"https://developers.cloudflare.com/kv/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-cdn", provedor:"Cloudflare", nome:"CDN", areas:["rede"], gratis:"sempre", min:0, max:0, complexidade:1, frase:"CDN grátis no plano free", gratuidade:"Grátis", doc:"https://developers.cloudflare.com/cache/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-dns", provedor:"Cloudflare", nome:"DNS", areas:["rede"], gratis:"sempre", min:0, max:0, complexidade:1, frase:"DNS grátis e rápido", gratuidade:"Grátis", doc:"https://developers.cloudflare.com/dns/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  {id:"cf-queues", provedor:"Cloudflare", nome:"Queues", areas:["app"], gratis:"sempre", min:0, max:10, complexidade:3, frase:"fila com 1 milhão de operações grátis", gratuidade:"1 milhão de operações por mês grátis", doc:"https://developers.cloudflare.com/queues/", preco:"https://www.cloudflare.com/pt-br/plans/"},
+  /* --- DigitalOcean: preço fixo e simples --- */
+  {id:"do-droplets", provedor:"DigitalOcean", nome:"Droplets", areas:["app"], gratis:"nao", min:20, max:60, complexidade:3, frase:"servidor simples com preço fixo", gratuidade:"Sem nível gratuito", doc:"https://docs.digitalocean.com/products/droplets/", preco:"https://www.digitalocean.com/pricing"},
+  {id:"do-app-platform", provedor:"DigitalOcean", nome:"App Platform", areas:["site"], gratis:"sempre", min:0, max:30, complexidade:1, frase:"3 sites estáticos grátis", gratuidade:"3 sites estáticos grátis", doc:"https://docs.digitalocean.com/products/app-platform/", preco:"https://www.digitalocean.com/pricing"},
+  {id:"do-functions", provedor:"DigitalOcean", nome:"Functions", areas:["app"], gratis:"sempre", min:0, max:20, complexidade:2, frase:"código sob demanda com cota grátis", gratuidade:"90 mil GB-s por mês grátis", doc:"https://docs.digitalocean.com/products/functions/", preco:"https://www.digitalocean.com/pricing"},
+  {id:"do-k8s", provedor:"DigitalOcean", nome:"Kubernetes", areas:["app"], gratis:"temporario", min:60, max:300, complexidade:5, frase:"Kubernetes com controle grátis", gratuidade:"Controle grátis, paga as máquinas", doc:"https://docs.digitalocean.com/products/kubernetes/", preco:"https://www.digitalocean.com/pricing"},
+  {id:"do-db", provedor:"DigitalOcean", nome:"Managed Databases", areas:["banco"], gratis:"nao", min:80, max:200, complexidade:3, frase:"Postgres e MySQL gerenciados", gratuidade:"Sem nível gratuito", doc:"https://docs.digitalocean.com/products/databases/", preco:"https://www.digitalocean.com/pricing"},
+  {id:"do-spaces", provedor:"DigitalOcean", nome:"Spaces", areas:["arquivos"], gratis:"nao", min:30, max:60, complexidade:2, frase:"250 GB por US$ 5", gratuidade:"Sem nível gratuito", doc:"https://docs.digitalocean.com/products/spaces/", preco:"https://www.digitalocean.com/pricing"},
+  {id:"do-lb", provedor:"DigitalOcean", nome:"Load Balancers", areas:["rede"], gratis:"nao", min:65, max:120, complexidade:3, frase:"divide visitas, US$ 12 fixos", gratuidade:"Sem nível gratuito", doc:"https://docs.digitalocean.com/products/networking/load-balancers/", preco:"https://www.digitalocean.com/pricing"}
 ];
 
 const AREAS = {site:"Hospedar site", app:"Rodar app ou API", banco:"Hospedar banco de dados", arquivos:"Guardar arquivos", dados:"Analisar dados", rede:"Rede e entrega", ia:"Treinamento de IA", qualquer:"Qualquer um"};
@@ -505,8 +557,7 @@ const PRECOS = {
   qualquer:{rotulo:"Qualquer preço", teste:s=>true, desc:"sem filtro de preço"},
   gratis:{rotulo:"Gratuito", teste:s=>s.gratis==="sempre", desc:"só grátis para sempre"},
   ate50:{rotulo:"Até R$ 50", teste:s=>s.min<=50, desc:"começo dentro de R$ 50"},
-  ate100:{rotulo:"Até R$ 100", teste:s=>s.min<=100, desc:"começo dentro de R$ 100"},
-  "por-uso":{rotulo:"Conforme o uso", teste:s=>true, desc:"preço varia com o consumo"}
+  ate100:{rotulo:"Até R$ 100", teste:s=>s.min<=100, desc:"começo dentro de R$ 100"}
 };
 
 let selArea = "qualquer", selPreco = "qualquer", selProv = "todos", selGrat = "todas", selCx = 5, selSort = "preco";
@@ -566,12 +617,9 @@ function render(){
   document.getElementById("step-prov").classList.toggle("done", selProv !== "todos");
   document.getElementById("step-grat").classList.toggle("done", selGrat !== "todas");
   document.getElementById("step-cx").classList.toggle("done", selCx !== 5);
-  if(!selArea || !selPreco){
-    resBody.innerHTML = '<div class="empty"><p>Escolha os filtros na aba Filtros.</p></div>';
-    return;
-  }
   const {candidatos, log} = filtrar(selArea, selPreco);
   const areaNome = s => selArea === "qualquer" ? s.areas.map(a=>AREAS[a]).join(" + ") : AREAS[selArea];
+  if(!resBody){ renderFiltros(candidatos, log); return; }
   if(candidatos.length===0){
     const fora = log.filter(l=>!l.ok).length;
     resBody.innerHTML =
@@ -600,20 +648,23 @@ function render(){
     '<details class="trace"><summary>Como chegamos aqui (' + candidatos.length + ' passaram, ' + (log.length-candidatos.length) + ' ficaram de fora)</summary><ol>' +
     log.map(l=>'<li><code>'+esc(l.s.provedor+" / "+l.s.nome)+'</code> — '+(l.ok?"mantido":"fora: "+esc(l.motivo))+'</li>').join("") +
     '</ol></details>';
+  renderFiltros(candidatos, log);
+}
+
+function renderFiltros(candidatos, log){
   const fres = document.getElementById("fres-body");
-  if(fres){
-    if(candidatos.length === 0){
-      fres.innerHTML = '<div class="empty"><p><strong>Nada passou nesses filtros.</strong> Abra a faixa de preço ou volte o provedor para Todos.</p></div>';
-    } else {
-      const linhas = candidatos.map((s,i)=>
-        '<tr><td><span class="prov">'+esc(s.provedor)+'</span> <strong><a href="'+s.doc+'">'+esc(s.nome)+'</a></strong>'+(i===0?' <span class="prov">ideal</span>':'')+'</td>' +
-        '<td class="area-tag">'+s.areas.map(a=>AREAS[a]).join(", ")+'</td>' +
-        '<td class="mono">'+faixa(s)+'</td>' +
-        '<td>nível '+s.complexidade+'/5 · '+esc(s.gratuidade)+'</td></tr>').join("");
-      fres.innerHTML = '<p class="count">'+candidatos.length+' de '+CATALOGO.length+' nuvens</p>' +
-        '<table class="cat"><thead><tr><th>Serviço</th><th>Área</th><th>Faixa mensal</th><th>Nível e gratuidade</th></tr></thead><tbody>'+linhas+'</tbody></table>';
-    }
+  if(!fres) return;
+  if(candidatos.length === 0){
+    fres.innerHTML = '<div class="empty"><p><strong>Nada passou nesses filtros.</strong> Abra a faixa de preço ou volte o provedor para Todos.</p></div>';
+    return;
   }
+  const linhas = candidatos.map((s,i)=>
+    '<tr><td><span class="prov">'+esc(s.provedor)+'</span> <strong><a href="'+s.doc+'">'+esc(s.nome)+'</a></strong>'+(i===0?' <span class="prov">ideal</span>':'')+'</td>' +
+    '<td class="area-tag">'+s.areas.map(a=>AREAS[a]).join(", ")+'</td>' +
+    '<td class="mono">'+faixa(s)+'</td>' +
+    '<td>nível '+s.complexidade+'/5 · '+esc(s.gratuidade)+'</td></tr>').join("");
+  fres.innerHTML = '<p class="count">'+candidatos.length+' de '+CATALOGO.length+' nuvens</p>' +
+    '<table class="cat"><thead><tr><th>Serviço</th><th>Área</th><th>Faixa mensal</th><th>Nível e gratuidade</th></tr></thead><tbody>'+linhas+'</tbody></table>';
 }
 
 document.querySelectorAll("[data-area]").forEach(b=>b.addEventListener("click", ()=>{ selArea=b.getAttribute("data-area"); render(); }));
@@ -672,9 +723,9 @@ document.getElementById("chatform").addEventListener("submit", e=>{
     {id:"gratis", titulo:"Gratuito para sempre", desc:"R$ 0 contínuo"},
     {id:"ate50", titulo:"Começa em até R$ 50", desc:"cabe no bolso pequeno"},
     {id:"ate100", titulo:"Começa em até R$ 100", desc:"com mais folga"},
-    {id:"por-uso", titulo:"Conforme o uso", desc:"sem teto, paga o que usar"}
+    {id:"acima100", titulo:"Entrada acima de R$ 100", desc:"ponto de partida alto"}
   ];
-  const Passou = {gratis:s=>s.gratis==="sempre", ate50:s=>s.min<=50&&s.min>0||s.min===0&&s.max>0&&s.gratis!=="sempre", ate100:s=>s.min>50&&s.min<=100, "por-uso":s=>s.min>100};
+  const Passou = {gratis:s=>s.gratis==="sempre", ate50:s=>s.min<=50&&s.min>0||s.min===0&&s.max>0&&s.gratis!=="sempre", ate100:s=>s.min>50&&s.min<=100, acima100:s=>s.min>100};
   const el = document.getElementById("tiers");
   el.innerHTML = grupos.map(g=>{
     const itens = CATALOGO.filter(Passou[g.id]);
