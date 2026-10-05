@@ -179,6 +179,16 @@
     html{scroll-behavior:auto}
     *{transition:none !important}
   }
+
+  /* ---------- barras de rolagem finas ---------- */
+  html{scrollbar-width:thin;scrollbar-color:#c9c9c4 transparent}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:#cfcfca;border-radius:8px;border:2px solid var(--paper)}
+  ::-webkit-scrollbar-thumb:hover{background:var(--ink-3)}
+  aside.rail{scrollbar-width:thin;scrollbar-color:#c9c9c4 transparent}
+  aside.rail::-webkit-scrollbar{width:8px}
+  aside.rail::-webkit-scrollbar-thumb{border:2px solid var(--paper)}
 </style>
 </head>
 <body>
