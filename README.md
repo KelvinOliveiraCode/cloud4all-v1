@@ -18,41 +18,36 @@ python -m http.server 8080
 ## Verificar a regra (teste real, sem IA)
 
 `test-v1.mjs` extrai o `<script>` do `index.html` e roda o `filtrar` de verdade
-no Node, com 6 asserções (ordenação, exclusão por teto, vazio honesto em
-`ia+gratis`, cobertura total em `por-uso`):
+no Node, com 12 asserções (ordenação, exclusão por teto, vazios honestos,
+cobertura total, sem duplicatas):
 
 ```powershell
 node test-v1.mjs
 ```
 
-## O que a v1 contém (v1.2: enxuta, com "qualquer" e 25 serviços)
+## O que a v1 contém (v1.4: catálogo completo, 75 serviços)
 
 - Abertura enxuta: título + 1 linha. Sem kicker institucional, sem fórmula
   interna exposta (o passo a passo continua em "Como chegamos aqui").
 - Trilho em 2 passos com **"Qualquer um"** (negócio) e **"Qualquer preço"**
   **pré-selecionados**: o site abre já com recomendação na tela.
-  Áreas: site · app/API · banco de dados · arquivos · treino de IA.
-- Catálogo com **25 serviços** (AWS, Azure, Google Cloud).
+  Áreas: site · app/API · banco de dados · arquivos · analisar dados ·
+  rede e entrega · treino de IA.
+- Catálogo com **75 serviços** (AWS 27 · Azure 25 · Google Cloud 22 · Google 1),
+  cobrindo compute, containers, serverless, filas, armazenamento, bancos,
+  rede/CDN/DNS, analytics e IA/ML de cada provedor. Curadoria via enxame de
+  subagents (nomes/URLs) + conferência manual dos níveis gratuitos; amostra de
+  5 links oficiais verificada com retorno 2xx.
+- Snapshot de preços: **out/2026**, valores aproximados em R$ para uso pequeno
+  (conversão aproximada de USD 1 ≈ R$ 5,50). Cada linha liga a página oficial
+  de preços/docs — confirme sempre lá.
+- Caso sem opção honesta (ex.: `rede + gratuito`): a página **diz que não há**
+  em vez de forçar indicação.
+- Layout em **tela cheia** e navegação por **abas**: Início · Catálogo ·
+  Como funciona · O projeto. Hash acompanha (`#catalogo`, `#como-funciona`).
 - Logo em SVG próprio: só a nuvenzinha, de olhos fechados e sorriso
-  (três curvas, sem dentes). Monocromático de novo.
-
-- Layout em **tela cheia** (sem coluna espremida) e navegação por **abas**:
-  Início (2 passos + recomendação + conversa) · Catálogo · Como funciona ·
-  O projeto. Hash da URL acompanha (`#catalogo`, `#como-funciona`, `#projeto`).
-- Logo em SVG próprio: nuvenzinha com um bonequinho azul sorrindo de trás dela.
-
-- Trilho de 2 passos: **área** (hospedar site · banco de dados · treinamento de IA)
-  × **preço** (gratuito · até R$ 50 · até R$ 100 · conforme o uso).
-- Recomendação com **nuvem ideal + 2 alternativas** e motivo comparativo gerado
-  por template (nada redigido por IA).
-- **Chat-maquete**: visível, mas responde texto fixo avisando que a busca
-  automática entra na v2. Não finge conversar.
-- **Catálogo por preço** com os 18 serviços, só dos provedores do resumo do
-  projeto (AWS, Azure, Google Cloud). Snapshot de preços: **out/2026**,
-  valores aproximados em R$ para uso pequeno — cada linha liga a página
-  oficial de preços/docs.
-- Caso sem opção honesta (`ia + gratuito`): a página **diz que não há** e
-  sugere alternativa fora do escopo, em vez de forçar indicação.
+  (três curvas, sem dentes). Monocromático.
+- Barras de rolagem finas (10px página, 8px trilho).
 
 ## Design
 
@@ -64,8 +59,8 @@ sem vidro, sem emoji como ícone, sem métrica inventada.
 ## Roteiro
 
 - `v1` — esta página (filtro determinístico).
-- `v2` — plugar IA: o chat passa a extrair área/preço da frase e chamar o
-  mesmo `filtrar`; preços continuam vindo do catálogo, nunca do modelo.
+- `v2` — plugar IA por último: o chat passa a extrair área/preço da frase e
+  chamar o mesmo `filtrar`; preços continuam vindo do catálogo, nunca do modelo.
 - `v3` — configuração assistida do serviço escolhido.
 
 ## Nota de integridade (05/out/2026)
@@ -73,8 +68,6 @@ sem vidro, sem emoji como ícone, sem métrica inventada.
 A pasta anterior `Desktop\cloud4all` (Next.js + FastAPI + catálogo de 55 itens)
 existia no início da sessão e **desapareceu do disco no meio do trabalho**
 (confirmado por leitura de diretório e `Test-Path`). Esta v1 foi reconstruída
-do zero em `Desktop\cloud4all-v1` e não depende daqueles arquivos. Se a pasta
-original reaparecer (outro Desktop/OneDrive, lixeira), o catálogo dela pode
-realimentar esta página na v1.1.
+do zero em `Desktop\cloud4all-v1` e não depende daqueles arquivos.
 
 Site público: <https://kelvinoliveiracode.github.io/cloud4all-v1/>
