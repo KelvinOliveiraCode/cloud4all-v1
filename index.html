@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud4All — v1: ache sua nuvem ideal</title>
+<meta name="description" content="Cloud4All v1: escolha a área e o preço e receba a nuvem ideal entre AWS, Azure e Google Cloud. Regra aberta, sem IA ainda.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f5f5f3;
+    --panel:#ffffff;
+    --ink:#101013;
+    --ink-2:#3c3f45;
+    --ink-3:#6a6e76;
+    --line:#e0e0dc;
+    --line-strong:#c9c9c4;
+    --dark:#141416;
+    --dark-2:#1d1d20;
+    --dark-line:#2c2c31;
+    --radius:10px;
+    --max:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Archivo',system-ui,-apple-system,'Segoe UI',sans-serif;
+    font-weight:300;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+  /* ---------- top bar (compacta, alinhada à esquerda) ---------- */
+  header.top{border-bottom:1px solid var(--line-strong);background:var(--paper);position:sticky;top:0;z-index:20}
+  .top-inner{display:flex;align-items:center;gap:28px;padding:14px 24px;max-width:var(--max);margin:0 auto}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+  .brand-mark{width:26px;height:26px;border:1.5px solid var(--ink);border-radius:7px;position:relative;flex:none}
+  .brand-mark::after{content:"";position:absolute;left:6px;right:6px;top:6px;bottom:6px;background:var(--ink);border-radius:3px}
+  .brand b{font-weight:600;letter-spacing:.01em;font-size:1.02rem}
+  .brand span{font-weight:200;color:var(--ink-3);font-size:.85rem;border-left:1px solid var(--line-strong);padding-left:12px}
+  nav.main{display:flex;gap:4px;margin-left:auto}
+  nav.main a{color:var(--ink-2);text-decoration:none;font-size:.9rem;font-weight:400;padding:8px 12px;border-radius:7px}
+  nav.main a:hover{background:#e9e9e5;color:var(--ink)}
+
+  /* ---------- layout: trilho lateral + conteúdo ---------- */
+  .layout{display:grid;grid-template-columns:290px 1fr;gap:0;border-left:1px solid var(--line-strong);border-right:1px solid var(--line-strong);background:var(--panel)}
+  aside.rail{border-right:1px solid var(--line);padding:28px 24px;position:sticky;top:55px;align-self:start;max-height:calc(100vh - 55px);overflow:auto}
+  .rail h2{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+  .step{border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:14px;background:var(--paper)}
+  .step.done{border-color:var(--ink)}
+  .step-num{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--ink-3)}
+  .step.done .step-num{color:var(--ink)}
+  .step p{font-size:.92rem;color:var(--ink-2);margin-top:2px}
+  .field-label{display:block;font-size:.85rem;font-weight:500;margin:14px 0 8px}
+  .opt{display:flex;flex-direction:column;gap:8px}
+  .opt button{
+    text-align:left;font-family:inherit;font-size:.92rem;font-weight:400;
+    border:1px solid var(--line-strong);background:var(--panel);color:var(--ink);
+    border-radius:8px;padding:10px 12px;cursor:pointer;line-height:1.4;
+  }
+  .opt button small{display:block;font-weight:300;color:var(--ink-3);font-size:.8rem}
+  .opt button:hover{border-color:var(--ink)}
+  .opt button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .opt button[aria-pressed="true"] small{color:#c9c9c4}
+  .hint{font-size:.8rem;color:var(--ink-3);margin-top:10px}
+
+  main.col{padding:32px 32px 64px;min-width:0}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--ink-3);letter-spacing:.08em}
+  h1{font-weight:200;font-size:2.15rem;line-height:1.2;letter-spacing:-.01em;margin:8px 0 10px;max-width:22ch}
+  h1 strong{font-weight:600}
+  .lede{color:var(--ink-2);font-size:1.02rem;max-width:62ch}
+  .lede code{font-family:'IBM Plex Mono',monospace;font-size:.88em;background:#ececea;padding:1px 6px;border-radius:5px}
+
+  /* ---------- resultado ---------- */
+  #resultado{margin-top:28px;border:1px solid var(--line-strong);border-radius:12px;overflow:hidden}
+  #resultado .res-head{background:var(--dark);color:#f0f0ee;padding:16px 20px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  #resultado .res-head h2{font-size:1rem;font-weight:500}
+  #resultado .res-head .rule{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:#a9a9a4}
+  #resultado .res-body{padding:20px}
+  .ideal{border:1px solid var(--ink);border-radius:var(--radius);padding:18px 20px;margin-bottom:14px}
+  .ideal .tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.08em;border:1px solid var(--ink);border-radius:20px;padding:2px 10px;margin-bottom:8px}
+  .ideal h3{font-size:1.25rem;font-weight:500}
+  .ideal h3 span{font-weight:200;color:var(--ink-3)}
+  .price{font-family:'IBM Plex Mono',monospace;font-size:.95rem;margin:8px 0}
+  .ideal dl{display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:.9rem;margin-top:10px}
+  .ideal dt{color:var(--ink-3);font-weight:400}
+  .ideal dd{color:var(--ink)}
+  .ideal dd a, .svc a{color:inherit;text-underline-offset:3px}
+  .alt-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:4px}
+  .alt-list .svc{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+  .svc h4{font-size:1rem;font-weight:500}
+  .svc h4 span{font-weight:300;color:var(--ink-3);font-size:.85rem}
+  .svc .meta{font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--ink-3);margin:4px 0 6px}
+  .svc p{font-size:.9rem;color:var(--ink-2)}
+  details.trace{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+  details.trace summary{cursor:pointer;font-size:.88rem;font-weight:500}
+  details.trace ol{margin:10px 0 0 20px;font-size:.85rem;color:var(--ink-2)}
+  details.trace li{margin-bottom:4px}
+  details.trace code{font-family:'IBM Plex Mono',monospace;font-size:.8em}
+  .empty{padding:8px 0}
+  .empty p{color:var(--ink-2);font-size:.95rem;max-width:60ch}
+
+  /* ---------- chat (maquete, sem IA) ---------- */
+  #chat{margin-top:36px;border:1px solid var(--line-strong);border-radius:12px;overflow:hidden}
+  #chat .chat-head{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center}
+  #chat .chat-head h2{font-size:1rem;font-weight:500}
+  .pill{font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.08em;border:1px dashed var(--ink-3);color:var(--ink-3);border-radius:20px;padding:2px 10px;white-space:nowrap}
+  #chatlog{padding:18px 20px;display:flex;flex-direction:column;gap:10px;min-height:120px;background:var(--paper)}
+  .msg{max-width:75%;padding:10px 14px;border-radius:10px;font-size:.92rem}
+  .msg.bot{background:var(--panel);border:1px solid var(--line);align-self:flex-start}
+  .msg.user{background:var(--dark);color:#f0f0ee;align-self:flex-end}
+  .msg .who{display:block;font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--ink-3);margin-bottom:4px}
+  .msg.user .who{color:#a9a9a4}
+  .chat-form{display:flex;gap:10px;padding:14px 20px;border-top:1px solid var(--line);background:var(--panel)}
+  .chat-form input{
+    flex:1;font-family:inherit;font-size:.95rem;font-weight:300;color:var(--ink);
+    border:1px solid var(--line-strong);border-radius:8px;padding:11px 14px;background:var(--paper);
+  }
+  .chat-form button{
+    font-family:inherit;font-size:.9rem;font-weight:500;background:var(--ink);color:var(--paper);
+    border:1px solid var(--ink);border-radius:8px;padding:0 20px;cursor:pointer;
+  }
+  .chat-form button:hover{background:var(--dark-2)}
+
+  /* ---------- catálogo ---------- */
+  section.block{margin-top:48px}
+  section.block h2{font-size:1.35rem;font-weight:300;letter-spacing:-.01em}
+  section.block h2 strong{font-weight:600}
+  section.block .sub{color:var(--ink-3);font-size:.92rem;margin:4px 0 18px;max-width:64ch}
+  .tier{margin-bottom:22px}
+  .tier-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:12px}
+  .tier-head h3{font-size:1rem;font-weight:500}
+  .tier-head .count{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--ink-3)}
+  table.cat{width:100%;border-collapse:collapse;font-size:.88rem}
+  table.cat th{text-align:left;font-weight:500;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:8px 10px;border-bottom:1px solid var(--line-strong)}
+  table.cat td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.cat tr:hover td{background:#fafaf8}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:.8rem}
+  .prov{display:inline-block;font-size:.72rem;font-weight:500;border:1px solid var(--line-strong);border-radius:5px;padding:1px 8px;white-space:nowrap}
+  .area-tag{font-size:.78rem;color:var(--ink-3);white-space:nowrap}
+
+  /* ---------- como funciona / projeto ---------- */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .card{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:var(--panel)}
+  .card h3{font-size:.95rem;font-weight:500;margin-bottom:6px}
+  .card p, .card li{font-size:.88rem;color:var(--ink-2)}
+  .card ol, .card ul{margin-left:20px}
+  .card code{font-family:'IBM Plex Mono',monospace;font-size:.8em;background:#ececea;padding:1px 6px;border-radius:5px}
+  .snap{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;font-size:.85rem;color:var(--ink-2);background:var(--paper)}
+  .snap a{color:inherit}
+
+  footer.site{border-top:1px solid var(--line-strong);margin-top:56px;padding:22px 0 40px;font-size:.82rem;color:var(--ink-3)}
+  footer.site .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline}
+  footer.site a{color:inherit}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    aside.rail{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+    main.col{padding:24px 20px 48px}
+    nav.main{display:none}
+    .cols{grid-template-columns:1fr}
+    table.cat th:nth-child(4), table.cat td:nth-child(4){display:none}
+    h1{font-size:1.7rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#inicio" aria-label="Cloud4All, início">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <b>Cloud4All</b>
+      <span>v1 · Brasil</span>
+    </a>
+    <nav class="main" aria-label="Navegação principal">
+      <a href="#inicio">Início</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#projeto">O projeto</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="layout" id="inicio">
+
+  <aside class="rail" aria-label="Assistente em 2 passos">
+    <h2>Sua nuvem em 2 passos</h2>
+
+    <div class="step" id="step-area">
+      <span class="step-num">Passo 1</span>
+      <p><strong>Área.</strong> O que é o seu negócio?</p>
+      <span class="field-label" id="lbl-area">Escolha uma área</span>
+      <div class="opt" role="group" aria-labelledby="lbl-area">
+        <button type="button" data-area="site" aria-pressed="false">Hospedar site<small>Site, loja, portfólio, API pequena</small></button>
+        <button type="button" data-area="banco" aria-pressed="false">Hospedar banco de dados<small>Guardar dados com consulta e backup</small></button>
+        <button type="button" data-area="ia" aria-pressed="false">Treinamento de IA<small>Treinar modelo com GPU</small></button>
+      </div>
+    </div>
+
+    <div class="step" id="step-preco">
+      <span class="step-num">Passo 2</span>
+      <p><strong>Preço.</strong> Quanto cabe no mês?</p>
+      <span class="field-label" id="lbl-preco">Escolha uma faixa</span>
+      <div class="opt" role="group" aria-labelledby="lbl-preco">
+        <button type="button" data-preco="gratis" aria-pressed="false">Gratuito<small>R$ 0, grátis para sempre</small></button>
+        <button type="button" data-preco="ate50" aria-pressed="false">Até R$ 50<small>Começo pequeno, sem susto</small></button>
+        <button type="button" data-preco="ate100" aria-pressed="false">Até R$ 100<small>Um pouco mais de folga</small></button>
+        <button type="button" data-preco="por-uso" aria-pressed="false">Conforme o uso<small>Mostra tudo, paga o que usar</small></button>
+      </div>
+      <p class="hint">Valores em reais, estimados para uso pequeno. A fonte de cada número está no catálogo.</p>
+    </div>
+  </aside>
+
+  <main class="col">
+    <p class="kicker">IFPA · Ciência da Computação · ODS 4 e 9</p>
+    <h1>Responda duas perguntas e receba <strong>a nuvem ideal</strong>.</h1>
+    <p class="lede">Sem cadastro, sem jargão, sem IA por enquanto. Você escolhe a <strong>área</strong> e o <strong>preço</strong> no trilho ao lado; a regra abaixo filtra o catálogo de AWS, Azure e Google Cloud e mostra a conta aberta. O passo a passo da decisão aparece em <code>como chegamos aqui</code>.</p>
+
+    <div id="resultado" aria-live="polite">
+      <div class="res-head">
+        <h2>Sua recomendação</h2>
+        <span class="rule" id="res-rule">regra: área ∩ preço → menor custo → mais simples</span>
+      </div>
+      <div class="res-body" id="res-body">
+        <div class="empty">
+          <p>Escolha a <strong>área</strong> e o <strong>preço</strong> no trilho ao lado. Assim que os dois estiverem marcados, a nuvem ideal aparece aqui com o motivo e as alternativas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="chat">
+      <div class="chat-head">
+        <h2>Conversa</h2>
+        <span class="pill">Maquete — o assistente automático entra na v2</span>
+      </div>
+      <div id="chatlog" aria-live="polite">
+        <div class="msg bot"><span class="who">Cloud4All</span>Olá. Por enquanto eu ainda não busco sozinho: use os 2 passos ao lado e eu mostro a conta aqui em cima. Na v2, esta conversa vai entender seu pedido e buscar no catálogo por você.</div>
+      </div>
+      <form class="chat-form" id="chatform">
+        <input id="chatinput" type="text" placeholder="Ex.: quero um site para minha loja gastando pouco" aria-label="Sua mensagem" autocomplete="off">
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <section class="block" id="catalogo">
+      <h2>Catálogo <strong>por preço</strong></h2>
+      <p class="sub">Todos os 18 serviços desta v1, só dos provedores do projeto (AWS, Azure, Google Cloud), agrupados pela faixa em que um uso pequeno se encaixa. Snapshot de <span class="mono">out/2026</span>; valores aproximados em reais — confirme sempre na página oficial ligada em cada linha.</p>
+      <div id="tiers"></div>
+    </section>
+
+    <section class="block" id="como-funciona">
+      <h2>Como funciona <strong>(a regra, aberta)</strong></h2>
+      <p class="sub">Nenhum modelo de IA decide nada nesta v1. O caminho até a nuvem ideal é fixo e auditável:</p>
+      <div class="cols">
+        <div class="card">
+          <h3>O filtro</h3>
+          <ol>
+            <li>Fica só quem atende a <strong>área</strong> escolhida.</li>
+            <li>No modo <strong>Gratuito</strong>, fica só quem é grátis para sempre. Nas outras faixas, fica quem começa dentro do teto.</li>
+            <li>Ordena por <strong>menor custo</strong>; empate resolve pelo <strong>mais simples</strong> de configurar.</li>
+            <li>A primeira da fila é a <strong>nuvem ideal</strong>; as duas seguintes são as alternativas.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>O que a v1 não faz</h3>
+          <ul>
+            <li>Não consulta preço em tempo real (limitação assumida no artigo).</li>
+            <li>Não configura nada sozinho (é o trabalho futuro do projeto).</li>
+            <li>Não inventa número: todo valor exibido existe no catálogo embutido, com fonte e data.</li>
+            <li>Se nada passar no filtro, a resposta diz isso em vez de forçar uma indicação ruim.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="snap">Snapshot de preços: <span class="mono">out/2026</span> · Fontes: <a href="https://aws.amazon.com/pt/free/">AWS nível gratuito</a> · <a href="https://azure.microsoft.com/pt-br/pricing/purchase-options/azure-account">Azure conta gratuita</a> · <a href="https://cloud.google.com/free">Google Cloud nível gratuito</a> · <a href="https://cloud.google.com/run/pricing">Cloud Run preços</a> · <a href="https://firebase.google.com/pricing">Firebase preços</a></div>
+    </section>
+
+    <section class="block" id="projeto">
+      <h2>O projeto <strong>Cloud4All Brasil</strong></h2>
+      <p class="sub">Plataforma para traduzir necessidade simples em configuração real de nuvem, para estudantes e pequenos negócios. Resumo aceito no Connepi 2026 (IFPA). Esta página é a v1: catálogo determinístico navegável. A v2 liga a IA (RAG sobre documentação oficial) sem mudar a regra de filtro.</p>
+      <div class="cols">
+        <div class="card">
+          <h3>Provedores desta v1</h3>
+          <p>Somente os citados no resumo do projeto: <strong>AWS</strong>, <strong>Azure</strong> e <strong>Google Cloud</strong>. Outros provedores e níveis gratuitos generosos entram nas próximas versões, com a mesma curadoria.</p>
+        </div>
+        <div class="card">
+          <h3>Roteiro</h3>
+          <p><code>v1</code> filtro determinístico (esta página) → <code>v2</code> conversa com IA que busca sozinha → <code>v3</code> configuração assistida do serviço escolhido.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site">
+      <div>
+        <span>Cloud4All Brasil · v1 · IFPA</span>
+        <span>Snapshot <span class="mono">out/2026</span> — valores aproximados, confirme na página oficial.</span>
+        <a href="#inicio">Voltar ao início</a>
+      </div>
+    </footer>
+  </main>
+</div>
+</div>
+
+<script>
+/* Catálogo v1 — única fonte de verdade desta página.
+   Campos: id, provedor, nome, area(s), gratis ('sempre'|'temporario'|'nao'),
+   min/max BRL/mês em uso pequeno, complexidade 1-5, frase leiga, gratuidade, link doc/preço. */
+const CATALOGO = [
+  /* --- hospedar site --- */
+  {id:"azure-swa", provedor:"Azure", nome:"Static Web Apps", areas:["site"], gratis:"sempre", min:0, max:20, complexidade:1, frase:"assistente de poucos cliques, sem servidor para cuidar", gratuidade:"Plano gratuito generoso para sites estáticos", doc:"https://azure.microsoft.com/pt-br/products/app-service/static", preco:"https://azure.microsoft.com/pt-br/pricing/details/app-service/static/"},
+  {id:"gcp-firebase-hosting", provedor:"Google Cloud", nome:"Firebase Hosting", areas:["site"], gratis:"sempre", min:0, max:30, complexidade:1, frase:"publica com um comando, certificado incluso", gratuidade:"Cota gratuita mensal para hospedagem", doc:"https://firebase.google.com/docs/hosting", preco:"https://firebase.google.com/pricing"},
+  {id:"gcp-cloud-run", provedor:"Google Cloud", nome:"Cloud Run", areas:["site"], gratis:"sempre", min:0, max:60, complexidade:3, frase:"roda seu app em container e zera a conta parado", gratuidade:"2 milhões de requisições/mês sempre grátis", doc:"https://cloud.google.com/run/docs", preco:"https://cloud.google.com/run/pricing"},
+  {id:"azure-app-service", provedor:"Azure", nome:"App Service", areas:["site"], gratis:"sempre", min:0, max:80, complexidade:2, frase:"painel guiado, do grátis ao pago sem migrar", gratuidade:"Plano F1 gratuito com limites", doc:"https://azure.microsoft.com/pt-br/products/app-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/app-service/windows/"},
+  {id:"aws-amplify", provedor:"AWS", nome:"Amplify Hosting", areas:["site"], gratis:"temporario", min:0, max:45, complexidade:2, frase:"liga o repositório e publica sozinho", gratuidade:"12 meses grátis para conta nova, depois por uso", doc:"https://aws.amazon.com/pt/amplify/", preco:"https://aws.amazon.com/pt/amplify/pricing/"},
+  {id:"aws-lightsail", provedor:"AWS", nome:"Lightsail", areas:["site"], gratis:"temporario", min:25, max:60, complexidade:3, frase:"servidor com preço fixo, como um aluguel", gratuidade:"Primeiros meses grátis para conta nova", doc:"https://aws.amazon.com/pt/lightsail/", preco:"https://aws.amazon.com/pt/lightsail/pricing/"},
+  /* --- banco de dados --- */
+  {id:"gcp-firestore", provedor:"Google Cloud", nome:"Firestore", areas:["banco"], gratis:"sempre", min:0, max:40, complexidade:2, frase:"banco pronto, com cota diária gratuita", gratuidade:"Leituras e escrita gratuitas por dia", doc:"https://cloud.google.com/firestore/docs", preco:"https://cloud.google.com/firestore/pricing"},
+  {id:"aws-dynamodb", provedor:"AWS", nome:"DynamoDB", areas:["banco"], gratis:"sempre", min:0, max:50, complexidade:3, frase:"banco rápido da Amazon com nível sempre grátis", gratuidade:"25 GB sempre grátis", doc:"https://aws.amazon.com/pt/dynamodb/", preco:"https://aws.amazon.com/pt/dynamodb/pricing/"},
+  {id:"azure-cosmosdb", provedor:"Azure", nome:"Cosmos DB", areas:["banco"], gratis:"sempre", min:0, max:70, complexidade:3, frase:"banco global com nível gratuito mensal", gratuidade:"1.000 RU/s gratuitas por mês", doc:"https://azure.microsoft.com/pt-br/products/cosmos-db", preco:"https://azure.microsoft.com/pt-br/pricing/details/cosmos-db/autoscale/"},
+  {id:"azure-sql", provedor:"Azure", nome:"Azure SQL Database", areas:["banco"], gratis:"sempre", min:0, max:90, complexidade:3, frase:"SQL gerenciado com nível gratuito", gratuidade:"Nível gratuito com limites mensais", doc:"https://azure.microsoft.com/pt-br/products/azure-sql/database", preco:"https://azure.microsoft.com/pt-br/pricing/details/azure-sql-database/single/"},
+  {id:"aws-rds", provedor:"AWS", nome:"RDS", areas:["banco"], gratis:"temporario", min:60, max:200, complexidade:4, frase:"banco relacional gerenciado, exige rede e acesso", gratuidade:"750 h/mês por 12 meses em conta nova", doc:"https://aws.amazon.com/pt/rds/", preco:"https://aws.amazon.com/pt/rds/pricing/"},
+  {id:"gcp-cloud-sql", provedor:"Google Cloud", nome:"Cloud SQL", areas:["banco"], gratis:"nao", min:50, max:180, complexidade:3, frase:"MySQL e Postgres gerenciados no Google", gratuidade:"Sem nível gratuito permanente", doc:"https://cloud.google.com/sql/docs", preco:"https://cloud.google.com/sql/pricing"},
+  /* --- treinamento de IA --- */
+  {id:"aws-sagemaker", provedor:"AWS", nome:"SageMaker", areas:["ia"], gratis:"temporario", min:0, max:400, complexidade:4, frase:"treino gerenciado, grátis no começo e por hora depois", gratuidade:"250 h grátis nos 2 primeiros meses", doc:"https://aws.amazon.com/pt/sagemaker/", preco:"https://aws.amazon.com/pt/sagemaker/pricing/"},
+  {id:"azure-ml", provedor:"Azure", nome:"Azure Machine Learning", areas:["ia"], gratis:"nao", min:80, max:800, complexidade:4, frase:"estúdio de treino, paga a máquina por hora", gratuidade:"Área de trabalho grátis; computação paga", doc:"https://azure.microsoft.com/pt-br/products/machine-learning", preco:"https://azure.microsoft.com/pt-br/pricing/details/machine-learning/"},
+  {id:"gcp-vertex", provedor:"Google Cloud", nome:"Vertex AI", areas:["ia"], gratis:"nao", min:40, max:700, complexidade:4, frase:"treino e ajuste de modelos por hora de máquina", gratuidade:"Sem nível gratuito permanente", doc:"https://cloud.google.com/vertex-ai/docs", preco:"https://cloud.google.com/vertex-ai/pricing"},
+  {id:"azure-openai", provedor:"Azure", nome:"Azure OpenAI / Foundry", areas:["ia"], gratis:"nao", min:30, max:600, complexidade:3, frase:"usa modelo pronto por chamada, sem treinar", gratuidade:"Sem nível gratuito permanente", doc:"https://azure.microsoft.com/pt-br/products/ai-services/openai-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/cognitive-services/openai-service/"},
+  {id:"aws-ec2-gpu", provedor:"AWS", nome:"EC2 com GPU", areas:["ia"], gratis:"nao", min:150, max:1500, complexidade:5, frase:"máquina com placa de vídeo, a mais técnica e cara", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/ec2/instance-types/", preco:"https://aws.amazon.com/pt/ec2/pricing/on-demand/"},
+  {id:"gcp-gpu", provedor:"Google Cloud", nome:"Compute Engine com GPU", areas:["ia"], gratis:"nao", min:120, max:1200, complexidade:5, frase:"máquina com GPU no Google, cobra por minuto", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/compute/docs/gpus", preco:"https://cloud.google.com/compute/pricing"}
+];
+
+const AREAS = {site:"Hospedar site", banco:"Hospedar banco de dados", ia:"Treinamento de IA"};
+const PRECOS = {
+  gratis:{rotulo:"Gratuito", teste:s=>s.gratis==="sempre", desc:"só grátis para sempre"},
+  ate50:{rotulo:"Até R$ 50", teste:s=>s.min<=50, desc:"começo dentro de R$ 50"},
+  ate100:{rotulo:"Até R$ 100", teste:s=>s.min<=100, desc:"começo dentro de R$ 100"},
+  "por-uso":{rotulo:"Conforme o uso", teste:s=>true, desc:"tudo, paga o que usar"}
+};
+
+let selArea = null, selPreco = null;
+const resBody = document.getElementById("res-body");
+const resRule = document.getElementById("res-rule");
+
+function brl(v){ return "R$ " + v; }
+function faixa(s){ return s.min===0 && s.max===0 ? "R$ 0" : s.min===0 ? "R$ 0 – " + brl(s.max) : brl(s.min) + " – " + brl(s.max); }
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+
+function filtrar(area, preco){
+  const t = PRECOS[preco].teste;
+  const log = [];
+  const cand = [];
+  for(const s of CATALOGO){
+    if(!s.areas.includes(area)){ log.push({s, ok:false, motivo:"não atende a área " + AREAS[area]}); continue; }
+    if(!t(s)){
+      const motivo = preco==="gratis" ? "não é grátis para sempre" : ("começa em " + brl(s.min) + ", acima do teto");
+      log.push({s, ok:false, motivo}); continue;
+    }
+    log.push({s, ok:true, motivo:"passou em área e preço"});
+    cand.push(s);
+  }
+  cand.sort((a,b)=> (a.min-b.min) || (a.complexidade-b.complexidade));
+  return {candidatos:cand, log};
+}
+
+function motivoIdeal(s, outros){
+  const nomes = outros.map(o=>o.provedor+" "+o.nome).join(" e ");
+  const base = s.min===0
+    ? "começa em R$ 0 (" + s.gratuidade.toLowerCase() + ")"
+    : "começa em " + brl(s.min) + "/mês em uso pequeno";
+  const dif = "nível " + s.complexidade + " de configuração (" + s.frase + ")";
+  return "Para o seu recorte, " + base + ", com " + dif + (nomes ? ", à frente de " + nomes + "." : ".");
+}
+
+function render(){
+  document.querySelectorAll("[data-area]").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.area===selArea)));
+  document.querySelectorAll("[data-preco]").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.preco===selPreco)));
+  document.getElementById("step-area").classList.toggle("done", !!selArea);
+  document.getElementById("step-preco").classList.toggle("done", !!selPreco);
+  if(!selArea || !selPreco){
+    resRule.textContent = "regra: área ∩ preço → menor custo → mais simples";
+    resBody.innerHTML = '<div class="empty"><p>Escolha a <strong>área</strong> e o <strong>preço</strong> no trilho ao lado. Assim que os dois estiverem marcados, a nuvem ideal aparece aqui com o motivo e as alternativas.</p></div>';
+    return;
+  }
+  const {candidatos, log} = filtrar(selArea, selPreco);
+  resRule.textContent = "regra: " + AREAS[selArea] + " ∩ " + PRECOS[selPreco].rotulo + " → menor custo → mais simples";
+  if(candidatos.length===0){
+    const fora = log.filter(l=>!l.ok).length;
+    resBody.innerHTML =
+      '<div class="empty"><p><strong>Sem indicação honesta para esse recorte.</strong> ' +
+      'Dos ' + CATALOGO.length + ' serviços, ' + fora + ' ficaram de fora pelos seus critérios — ' +
+      (selArea==="ia" && selPreco==="gratis"
+        ? 'treinar IA com GPU não tem nível sempre-grátis nos 3 provedores. Alternativa fora do escopo da v1: Google Colab (grátis, com limites).'
+        : 'tente uma faixa acima ou a opção “Conforme o uso”.') +
+      '</p><details class="trace"><summary>Como chegamos aqui (' + log.length + ' verificados)</summary><ol>' +
+      log.map(l=>'<li><code>'+esc(l.s.provedor+" / "+l.s.nome)+'</code> — '+(l.ok?"mantido":"fora: "+esc(l.motivo))+'</li>').join("") +
+      '</ol></details></div>';
+    return;
+  }
+  const [ideal, ...alts] = candidatos.slice(0,3);
+  resBody.innerHTML =
+    '<article class="ideal"><span class="tag">Nuvem ideal</span>' +
+    '<h3>'+esc(ideal.provedor)+" "+esc(ideal.nome)+' <span>· '+AREAS[selArea]+'</span></h3>' +
+    '<p class="price">'+faixa(ideal)+'/mês em uso pequeno</p>' +
+    '<dl><dt>Por que esta</dt><dd>'+esc(motivoIdeal(ideal, alts))+'</dd>' +
+    '<dt>Gratuidade</dt><dd>'+esc(ideal.gratuidade)+'</dd>' +
+    '<dt>Configuração</dt><dd>Nível '+ideal.complexidade+'/5 — '+esc(ideal.frase)+'.</dd>' +
+    '<dt>Comece por aqui</dt><dd><a href="'+ideal.doc+'">Documentação oficial</a> · <a href="'+ideal.preco+'">Página de preços</a></dd></dl></article>' +
+    (alts.length ? '<ul class="alt-list">' + alts.map(a=>
+      '<li class="svc"><h4>'+esc(a.provedor)+" "+esc(a.nome)+' <span>· nível '+a.complexidade+'/5</span></h4>' +
+      '<p class="meta">'+faixa(a)+'/mês · '+esc(a.gratuidade)+'</p><p>'+esc(a.frase)+'.</p></li>').join("") + '</ul>' : "") +
+    '<details class="trace"><summary>Como chegamos aqui (' + candidatos.length + ' passaram, ' + (log.length-candidatos.length) + ' ficaram de fora)</summary><ol>' +
+    log.map(l=>'<li><code>'+esc(l.s.provedor+" / "+l.s.nome)+'</code> — '+(l.ok?"mantido":"fora: "+esc(l.motivo))+'</li>').join("") +
+    '</ol></details>';
+}
+
+document.querySelectorAll("[data-area]").forEach(b=>b.addEventListener("click", ()=>{ selArea=b.dataset.area; render(); }));
+document.querySelectorAll("[data-preco]").forEach(b=>b.addEventListener("click", ()=>{ selPreco=b.dataset.preco; render(); }));
+
+/* Chat-maquete: resposta fixa, sem fingir IA. */
+const RESPOSTA_FIXA = "O assistente automático chega na v2 — por enquanto eu não busco sozinho. Use os 2 passos ao lado (área + preço) que a recomendação aparece ali em cima, com a conta aberta. Se já escolheu, me diga o que apareceu que eu confirmo o caminho.";
+document.getElementById("chatform").addEventListener("submit", e=>{
+  e.preventDefault();
+  const input = document.getElementById("chatinput");
+  const texto = input.value.trim();
+  if(!texto) return;
+  const log = document.getElementById("chatlog");
+  const u = document.createElement("div");
+  u.className = "msg user";
+  u.innerHTML = '<span class="who">Você</span>' + esc(texto);
+  log.appendChild(u);
+  const b = document.createElement("div");
+  b.className = "msg bot";
+  b.innerHTML = '<span class="who">Cloud4All</span>' + esc(RESPOSTA_FIXA);
+  log.appendChild(b);
+  input.value = "";
+  log.lastElementChild.scrollIntoView({block:"nearest"});
+});
+
+/* Catálogo agrupado por preço. */
+(function(){
+  const grupos = [
+    {id:"gratis", titulo:"Gratuito para sempre", desc:"R$ 0 contínuo"},
+    {id:"ate50", titulo:"Começa em até R$ 50", desc:"cabe no bolso pequeno"},
+    {id:"ate100", titulo:"Começa em até R$ 100", desc:"com mais folga"},
+    {id:"por-uso", titulo:"Conforme o uso", desc:"sem teto, paga o que usar"}
+  ];
+  const Passou = {gratis:s=>s.gratis==="sempre", ate50:s=>s.min<=50&&s.min>0||s.min===0&&s.max>0&&s.gratis!=="sempre", ate100:s=>s.min>50&&s.min<=100, "por-uso":s=>s.min>100};
+  const el = document.getElementById("tiers");
+  el.innerHTML = grupos.map(g=>{
+    const itens = CATALOGO.filter(Passou[g.id]);
+    const rows = itens.map(s=>
+      '<tr><td><span class="prov">'+esc(s.provedor)+'</span> <strong>'+esc(s.nome)+'</strong></td>' +
+      '<td class="area-tag">'+s.areas.map(a=>AREAS[a]).join(", ")+'</td>' +
+      '<td class="mono">'+faixa(s)+'</td>' +
+      '<td>'+esc(s.gratuidade)+'. <a href="'+s.preco+'">Preços</a> · <a href="'+s.doc+'">Docs</a></td></tr>').join("");
+    return '<div class="tier"><div class="tier-head"><h3>'+g.titulo+'</h3><span class="count">'+itens.length+' serviços · '+g.desc+'</span></div>' +
+      '<table class="cat"><thead><tr><th>Serviço</th><th>Área</th><th>Faixa mensal</th><th>Gratuidade e fontes</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }).join("");
+})();
+</script>
+</body>
+</html>
