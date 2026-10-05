@@ -12,14 +12,16 @@ import vm from "node:vm";
 const ctx = vm.createContext(sandbox);
 const test = `
 ;const out = {};
-for (const [a,p] of [["site","gratis"],["banco","ate50"],["banco","por-uso"],["ia","gratis"],["ia","ate50"],["arquivos","ate50"],["app","gratis"],["dados","gratis"],["dados","ate50"],["dados","por-uso"],["rede","gratis"],["rede","por-uso"],["qualquer","qualquer"],["qualquer","gratis"]]) {
-  const r = filtrar(a,p);
-  out[a+"+"+p] = r.candidatos.map(c=>c.id);
+const combos = [["site","gratis"],["banco","ate50"],["banco","por-uso"],["ia","gratis"],["ia","ate50"],["arquivos","ate50"],["app","gratis"],["dados","gratis"],["dados","ate50"],["dados","por-uso"],["rede","gratis"],["rede","por-uso"],["qualquer","qualquer"],["qualquer","gratis"],["app","qualquer",{prov:"AWS"}],["qualquer","qualquer",{grat:"sempre"}],["qualquer","qualquer",{maxCx:1}],["ia","por-uso",{sort:"simples"}],["ia","por-uso",{sort:"preco"}]];
+for (const [a,p,o] of combos) {
+  const r = filtrar(a,p,o);
+  const k = a+"+"+p+(o ? "+"+JSON.stringify(o) : "");
+  out[k] = r.candidatos.map(c=>c.id);
 }
-JSON.stringify({n: CATALOGO.length, out, flags: Object.fromEntries(CATALOGO.map(c=>[c.id, c.gratis])), provs: [...new Set(CATALOGO.map(c=>c.provedor))]});
+JSON.stringify({n: CATALOGO.length, out, flags: Object.fromEntries(CATALOGO.map(c=>[c.id, c.gratis])), cx: Object.fromEntries(CATALOGO.map(c=>[c.id, c.complexidade])), provs: [...new Set(CATALOGO.map(c=>c.provedor))]});
 `;
 const res = vm.runInContext(src + test, ctx);
-const { n, out, flags, provs } = JSON.parse(res);
+const { n, out, flags, cx, provs } = JSON.parse(res);
 console.log("total=" + n + " provs=" + provs.join(","));
 const ids = out["qualquer+qualquer"];
 const assert = (c, m) => { if (!c) { console.error("FAIL " + m); process.exitCode = 1; } else console.log("PASS " + m); };
@@ -35,4 +37,11 @@ assert(out["banco+por-uso"].includes("gcp-alloydb") && out["banco+por-uso"].incl
 assert(out["dados+por-uso"].includes("azure-sentinel") && out["dados+por-uso"].includes("azure-adx"), "dados+por-uso tem Sentinel e Data Explorer");
 assert(out["qualquer+qualquer"].length === 101, "qualquer+qualquer traz tudo");
 assert(out["qualquer+gratis"].every(id => flags[id] === "sempre"), "qualquer+gratis so sempre-gratis");
+const awsApp = out['app+qualquer+{"prov":"AWS"}'];
+assert(awsApp.length > 0 && awsApp.includes("aws-lambda") && !awsApp.includes("azure-functions"), "filtro provedor AWS funciona");
+assert(out['qualquer+qualquer+{"grat":"sempre"}'].every(id => flags[id] === "sempre"), "filtro gratuidade funciona");
+assert(out['qualquer+qualquer+{"maxCx":1}'].every(id => cx[id] === 1), "filtro nivel iniciante funciona");
+const simples = out['ia+por-uso+{"sort":"simples"}'], porPreco = out['ia+por-uso+{"sort":"preco"}'];
+assert(simples[0] === "google-colab" && porPreco[0] === "google-colab", "ordenacoes comecam no Colab");
+assert(simples[5] === "azure-openai" && porPreco[5] === "aws-sagemaker", "ordem simples difere da ordem preco");
 console.log(process.exitCode ? "FALHAS" : "TODOS OS TESTES PASSARAM");

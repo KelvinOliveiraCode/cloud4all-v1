@@ -18,18 +18,25 @@ python -m http.server 8080
 ## Verificar a regra (teste real, sem IA)
 
 `test-v1.mjs` extrai o `<script>` do `index.html` e roda o `filtrar` de verdade
-no Node, com 14 asserções (ordenação, exclusão por teto, vazios honestos,
-cobertura total, sem duplicatas):
+no Node, com 17 asserções (ordenação, exclusão por teto, vazios honestos,
+filtros de provedor/gratuidade/nível/ordem, cobertura total, sem duplicatas):
 
 ```powershell
 node test-v1.mjs
 ```
 
-## O que a v1 contém (v1.5: 101 serviços, 3 packs novos)
+## O que a v1 contém (v1.6: aba Filtros, sem lateral)
 
 - Abertura enxuta: título + 1 linha. Sem kicker institucional, sem fórmula
   interna exposta (o passo a passo continua em "Como chegamos aqui").
-- Trilho em 2 passos com **"Qualquer um"** (negócio) e **"Qualquer preço"**
+- Sem lateral: o Início tem chamada, recomendação e conversa. Os filtros moram
+  na aba **Filtros** (ao lado de Catálogo): negócio · preço · provedor ·
+  gratuidade · nível (iniciante/já usei/qualquer) · ordem (menor preço ou mais
+  simples). A aba mostra a contagem e a tabela completa dos matches, com a
+  primeira linha marcada como ideal.
+- Todo nome de nuvem é link para a página do serviço no provedor
+  (recomendação, alternativas, filtros e catálogo).
+- Filtros com **"Qualquer um"** (negócio) e **"Qualquer preço"**
   **pré-selecionados**: o site abre já com recomendação na tela.
   Áreas: site · app/API · banco de dados · arquivos · analisar dados ·
   rede e entrega · treino de IA.
