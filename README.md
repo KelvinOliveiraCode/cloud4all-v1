@@ -25,7 +25,12 @@ no Node, com 6 asserções (ordenação, exclusão por teto, vazio honesto em
 node test-v1.mjs
 ```
 
-## O que a v1 contém
+## O que a v1 contém (v1.1: abas + tela cheia)
+
+- Layout em **tela cheia** (sem coluna espremida) e navegação por **abas**:
+  Início (2 passos + recomendação + conversa) · Catálogo · Como funciona ·
+  O projeto. Hash da URL acompanha (`#catalogo`, `#como-funciona`, `#projeto`).
+- Logo em SVG próprio: nuvenzinha com um bonequinho azul sorrindo de trás dela.
 
 - Trilho de 2 passos: **área** (hospedar site · banco de dados · treinamento de IA)
   × **preço** (gratuito · até R$ 50 · até R$ 100 · conforme o uso).

@@ -34,22 +34,28 @@
     -webkit-font-smoothing:antialiased;
   }
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .wrap{padding:0 32px}
 
   /* ---------- top bar (compacta, alinhada à esquerda) ---------- */
   header.top{border-bottom:1px solid var(--line-strong);background:var(--paper);position:sticky;top:0;z-index:20}
-  .top-inner{display:flex;align-items:center;gap:28px;padding:14px 24px;max-width:var(--max);margin:0 auto}
+  .top-inner{display:flex;align-items:center;gap:28px;padding:14px 32px}
   .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
-  .brand-mark{width:26px;height:26px;border:1.5px solid var(--ink);border-radius:7px;position:relative;flex:none}
-  .brand-mark::after{content:"";position:absolute;left:6px;right:6px;top:6px;bottom:6px;background:var(--ink);border-radius:3px}
+  .brand svg{flex:none;display:block}
   .brand b{font-weight:600;letter-spacing:.01em;font-size:1.02rem}
   .brand span{font-weight:200;color:var(--ink-3);font-size:.85rem;border-left:1px solid var(--line-strong);padding-left:12px}
-  nav.main{display:flex;gap:4px;margin-left:auto}
-  nav.main a{color:var(--ink-2);text-decoration:none;font-size:.9rem;font-weight:400;padding:8px 12px;border-radius:7px}
-  nav.main a:hover{background:#e9e9e5;color:var(--ink)}
+  nav.main{display:flex;gap:4px;margin-left:auto;overflow-x:auto}
+  nav.main button{font-family:inherit;font-size:.9rem;font-weight:400;color:var(--ink-2);background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;cursor:pointer;white-space:nowrap}
+  nav.main button:hover{color:var(--ink)}
+  nav.main button[aria-selected="true"]{color:var(--ink);font-weight:500;border-bottom-color:var(--ink)}
 
-  /* ---------- layout: trilho lateral + conteúdo ---------- */
-  .layout{display:grid;grid-template-columns:290px 1fr;gap:0;border-left:1px solid var(--line-strong);border-right:1px solid var(--line-strong);background:var(--panel)}
+  /* ---------- abas: uma tela por vez ---------- */
+  .tabpanel{display:none}
+  .tabpanel.active{display:block}
+  .page{padding:32px 0 8px}
+  .page .block{margin-top:0}
+
+  /* ---------- layout da aba início: trilho + conteúdo, tela cheia ---------- */
+  .layout{display:grid;grid-template-columns:320px 1fr;background:var(--panel);border-top:1px solid var(--line-strong)}
   aside.rail{border-right:1px solid var(--line);padding:28px 24px;position:sticky;top:55px;align-self:start;max-height:calc(100vh - 55px);overflow:auto}
   .rail h2{font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
   .step{border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:14px;background:var(--paper)}
@@ -129,10 +135,10 @@
   .chat-form button:hover{background:var(--dark-2)}
 
   /* ---------- catálogo ---------- */
-  section.block{margin-top:48px}
-  section.block h2{font-size:1.35rem;font-weight:300;letter-spacing:-.01em}
-  section.block h2 strong{font-weight:600}
-  section.block .sub{color:var(--ink-3);font-size:.92rem;margin:4px 0 18px;max-width:64ch}
+  .block{margin-top:48px}
+  .block h2{font-size:1.35rem;font-weight:300;letter-spacing:-.01em}
+  .block h2 strong{font-weight:600}
+  .block .sub{color:var(--ink-3);font-size:.92rem;margin:4px 0 18px;max-width:64ch}
   .tier{margin-bottom:22px}
   .tier-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:12px}
   .tier-head h3{font-size:1rem;font-weight:500}
@@ -156,14 +162,15 @@
   .snap a{color:inherit}
 
   footer.site{border-top:1px solid var(--line-strong);margin-top:56px;padding:22px 0 40px;font-size:.82rem;color:var(--ink-3)}
-  footer.site .wrap{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline}
+  footer.site .foot{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline}
   footer.site a{color:inherit}
 
   @media (max-width:900px){
     .layout{grid-template-columns:1fr}
     aside.rail{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
-    main.col{padding:24px 20px 48px}
-    nav.main{display:none}
+    main.col{padding:32px 32px 48px}
+    nav.main{margin-left:0}
+    nav.main button{padding:10px 8px}
     .cols{grid-template-columns:1fr}
     table.cat th:nth-child(4), table.cat td:nth-child(4){display:none}
     h1{font-size:1.7rem}
@@ -179,21 +186,30 @@
 <header class="top">
   <div class="top-inner">
     <a class="brand" href="#inicio" aria-label="Cloud4All, início">
-      <span class="brand-mark" aria-hidden="true"></span>
+      <svg width="46" height="28" viewBox="0 0 66 40" aria-hidden="true" focusable="false">
+        <circle cx="52" cy="18" r="9" fill="#2b6cff"/>
+        <circle cx="49.3" cy="16.5" r="2" fill="#fff"/>
+        <circle cx="54.7" cy="16.5" r="2" fill="#fff"/>
+        <circle cx="49.3" cy="16.5" r="1" fill="#101013"/>
+        <circle cx="54.7" cy="16.5" r="1" fill="#101013"/>
+        <path d="M49 21.5 Q52 24 55 21.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M10 34 L40 34 A7 7 0 0 0 40 20 A12 12 0 0 0 16 15 A9 9 0 0 0 8 25 A6 6 0 0 0 10 34 Z" fill="#fff" stroke="#101013" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
       <b>Cloud4All</b>
       <span>v1 · Brasil</span>
     </a>
-    <nav class="main" aria-label="Navegação principal">
-      <a href="#inicio">Início</a>
-      <a href="#catalogo">Catálogo</a>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#projeto">O projeto</a>
+    <nav class="main" aria-label="Abas do site" role="tablist">
+      <button type="button" role="tab" id="tab-inicio" data-tab="inicio" aria-selected="true" aria-controls="inicio">Início</button>
+      <button type="button" role="tab" id="tab-catalogo" data-tab="catalogo" aria-selected="false" aria-controls="catalogo">Catálogo</button>
+      <button type="button" role="tab" id="tab-como-funciona" data-tab="como-funciona" aria-selected="false" aria-controls="como-funciona">Como funciona</button>
+      <button type="button" role="tab" id="tab-projeto" data-tab="projeto" aria-selected="false" aria-controls="projeto">O projeto</button>
     </nav>
   </div>
 </header>
 
 <div class="wrap">
-<div class="layout" id="inicio">
+<section class="tabpanel active" id="inicio" role="tabpanel" aria-labelledby="tab-inicio" tabindex="0">
+<div class="layout">
 
   <aside class="rail" aria-label="Assistente em 2 passos">
     <h2>Sua nuvem em 2 passos</h2>
@@ -253,14 +269,23 @@
         <button type="submit">Enviar</button>
       </form>
     </div>
+  </main>
+</div>
+</section>
 
-    <section class="block" id="catalogo">
+<section class="tabpanel" id="catalogo" role="tabpanel" aria-labelledby="tab-catalogo" tabindex="0">
+<div class="page">
+    <section class="block">
       <h2>Catálogo <strong>por preço</strong></h2>
       <p class="sub">Todos os 18 serviços desta v1, só dos provedores do projeto (AWS, Azure, Google Cloud), agrupados pela faixa em que um uso pequeno se encaixa. Snapshot de <span class="mono">out/2026</span>; valores aproximados em reais — confirme sempre na página oficial ligada em cada linha.</p>
       <div id="tiers"></div>
     </section>
+</div>
+</section>
 
-    <section class="block" id="como-funciona">
+<section class="tabpanel" id="como-funciona" role="tabpanel" aria-labelledby="tab-como-funciona" tabindex="0">
+<div class="page">
+    <section class="block">
       <h2>Como funciona <strong>(a regra, aberta)</strong></h2>
       <p class="sub">Nenhum modelo de IA decide nada nesta v1. O caminho até a nuvem ideal é fixo e auditável:</p>
       <div class="cols">
@@ -285,8 +310,12 @@
       </div>
       <div class="snap">Snapshot de preços: <span class="mono">out/2026</span> · Fontes: <a href="https://aws.amazon.com/pt/free/">AWS nível gratuito</a> · <a href="https://azure.microsoft.com/pt-br/pricing/purchase-options/azure-account">Azure conta gratuita</a> · <a href="https://cloud.google.com/free">Google Cloud nível gratuito</a> · <a href="https://cloud.google.com/run/pricing">Cloud Run preços</a> · <a href="https://firebase.google.com/pricing">Firebase preços</a></div>
     </section>
+</div>
+</section>
 
-    <section class="block" id="projeto">
+<section class="tabpanel" id="projeto" role="tabpanel" aria-labelledby="tab-projeto" tabindex="0">
+<div class="page">
+    <section class="block">
       <h2>O projeto <strong>Cloud4All Brasil</strong></h2>
       <p class="sub">Plataforma para traduzir necessidade simples em configuração real de nuvem, para estudantes e pequenos negócios. Resumo aceito no Connepi 2026 (IFPA). Esta página é a v1: catálogo determinístico navegável. A v2 liga a IA (RAG sobre documentação oficial) sem mudar a regra de filtro.</p>
       <div class="cols">
@@ -300,16 +329,16 @@
         </div>
       </div>
     </section>
+</div>
+</section>
 
     <footer class="site">
-      <div>
+      <div class="foot">
         <span>Cloud4All Brasil · v1 · IFPA</span>
         <span>Snapshot <span class="mono">out/2026</span> — valores aproximados, confirme na página oficial.</span>
         <a href="#inicio">Voltar ao início</a>
       </div>
     </footer>
-  </main>
-</div>
 </div>
 
 <script>
@@ -426,6 +455,28 @@ function render(){
 
 document.querySelectorAll("[data-area]").forEach(b=>b.addEventListener("click", ()=>{ selArea=b.dataset.area; render(); }));
 document.querySelectorAll("[data-preco]").forEach(b=>b.addEventListener("click", ()=>{ selPreco=b.dataset.preco; render(); }));
+
+/* Abas: uma tela por vez, com hash (#inicio, #catalogo, #como-funciona, #projeto). */
+const TABS = ["inicio","catalogo","como-funciona","projeto"];
+function abaAtual(){
+  if(typeof location === "undefined") return "inicio";
+  const h = (location.hash || "#inicio").replace("#","");
+  return TABS.indexOf(h) >= 0 ? h : "inicio";
+}
+function mostrarAba(nome, trocarHash){
+  document.querySelectorAll("[data-tab]").forEach(b=>{
+    b.setAttribute("aria-selected", String(b.getAttribute("data-tab") === nome));
+  });
+  TABS.forEach(t=>{
+    const p = document.getElementById(t);
+    if(p && p.classList) p.classList.toggle("active", t === nome);
+  });
+  if(trocarHash && typeof history !== "undefined" && typeof location !== "undefined"){
+    history.replaceState(null, "", "#" + nome);
+  }
+}
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click", ()=>mostrarAba(b.getAttribute("data-tab"), true)));
+mostrarAba(abaAtual(), false);
 
 /* Chat-maquete: resposta fixa, sem fingir IA. */
 const RESPOSTA_FIXA = "O assistente automático chega na v2 — por enquanto eu não busco sozinho. Use os 2 passos ao lado (área + preço) que a recomendação aparece ali em cima, com a conta aberta. Se já escolheu, me diga o que apareceu que eu confirmo o caminho.";
