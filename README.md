@@ -25,7 +25,16 @@ no Node, com 6 asserções (ordenação, exclusão por teto, vazio honesto em
 node test-v1.mjs
 ```
 
-## O que a v1 contém (v1.1: abas + tela cheia)
+## O que a v1 contém (v1.2: enxuta, com "qualquer" e 25 serviços)
+
+- Abertura enxuta: título + 1 linha. Sem kicker institucional, sem fórmula
+  interna exposta (o passo a passo continua em "Como chegamos aqui").
+- Trilho em 2 passos com **"Qualquer um"** (negócio) e **"Qualquer preço"**
+  **pré-selecionados**: o site abre já com recomendação na tela.
+  Áreas: site · app/API · banco de dados · arquivos · treino de IA.
+- Catálogo com **25 serviços** (AWS, Azure, Google Cloud).
+- Logo em SVG próprio: só a nuvenzinha, de olhos fechados e sorriso
+  (três curvas, sem dentes). Monocromático de novo.
 
 - Layout em **tela cheia** (sem coluna espremida) e navegação por **abas**:
   Início (2 passos + recomendação + conversa) · Catálogo · Como funciona ·

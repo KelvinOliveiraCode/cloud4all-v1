@@ -187,13 +187,10 @@
   <div class="top-inner">
     <a class="brand" href="#inicio" aria-label="Cloud4All, início">
       <svg width="46" height="28" viewBox="0 0 66 40" aria-hidden="true" focusable="false">
-        <circle cx="52" cy="18" r="9" fill="#2b6cff"/>
-        <circle cx="49.3" cy="16.5" r="2" fill="#fff"/>
-        <circle cx="54.7" cy="16.5" r="2" fill="#fff"/>
-        <circle cx="49.3" cy="16.5" r="1" fill="#101013"/>
-        <circle cx="54.7" cy="16.5" r="1" fill="#101013"/>
-        <path d="M49 21.5 Q52 24 55 21.5" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
         <path d="M10 34 L40 34 A7 7 0 0 0 40 20 A12 12 0 0 0 16 15 A9 9 0 0 0 8 25 A6 6 0 0 0 10 34 Z" fill="#fff" stroke="#101013" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M19 21 q3.5 3 0 6" stroke="#101013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M31 21 q-3.5 3 0 6" stroke="#101013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M21 30 q4 4.5 8 0" stroke="#101013" stroke-width="1.8" fill="none" stroke-linecap="round"/>
       </svg>
       <b>Cloud4All</b>
       <span>v1 · Brasil</span>
@@ -219,8 +216,11 @@
       <p><strong>Área.</strong> O que é o seu negócio?</p>
       <span class="field-label" id="lbl-area">Escolha uma área</span>
       <div class="opt" role="group" aria-labelledby="lbl-area">
-        <button type="button" data-area="site" aria-pressed="false">Hospedar site<small>Site, loja, portfólio, API pequena</small></button>
+        <button type="button" data-area="qualquer" aria-pressed="true">Qualquer um<small>Vale tudo: site, app, dados, IA</small></button>
+        <button type="button" data-area="site" aria-pressed="false">Hospedar site<small>Site, loja, portfólio</small></button>
+        <button type="button" data-area="app" aria-pressed="false">Rodar app ou API<small>Sistema, backend, código sob demanda</small></button>
         <button type="button" data-area="banco" aria-pressed="false">Hospedar banco de dados<small>Guardar dados com consulta e backup</small></button>
+        <button type="button" data-area="arquivos" aria-pressed="false">Guardar arquivos<small>Fotos, backups, arquivos soltos</small></button>
         <button type="button" data-area="ia" aria-pressed="false">Treinamento de IA<small>Treinar modelo com GPU</small></button>
       </div>
     </div>
@@ -230,24 +230,23 @@
       <p><strong>Preço.</strong> Quanto cabe no mês?</p>
       <span class="field-label" id="lbl-preco">Escolha uma faixa</span>
       <div class="opt" role="group" aria-labelledby="lbl-preco">
+        <button type="button" data-preco="qualquer" aria-pressed="true">Qualquer preço<small>Mostra tudo, do grátis ao caro</small></button>
         <button type="button" data-preco="gratis" aria-pressed="false">Gratuito<small>R$ 0, grátis para sempre</small></button>
         <button type="button" data-preco="ate50" aria-pressed="false">Até R$ 50<small>Começo pequeno, sem susto</small></button>
         <button type="button" data-preco="ate100" aria-pressed="false">Até R$ 100<small>Um pouco mais de folga</small></button>
-        <button type="button" data-preco="por-uso" aria-pressed="false">Conforme o uso<small>Mostra tudo, paga o que usar</small></button>
+        <button type="button" data-preco="por-uso" aria-pressed="false">Conforme o uso<small>Preço varia com o consumo</small></button>
       </div>
-      <p class="hint">Valores em reais, estimados para uso pequeno. A fonte de cada número está no catálogo.</p>
+      <p class="hint">Estimativas para uso pequeno. Fontes oficiais no catálogo.</p>
     </div>
   </aside>
 
   <main class="col">
-    <p class="kicker">IFPA · Ciência da Computação · ODS 4 e 9</p>
-    <h1>Responda duas perguntas e receba <strong>a nuvem ideal</strong>.</h1>
-    <p class="lede">Sem cadastro, sem jargão, sem IA por enquanto. Você escolhe a <strong>área</strong> e o <strong>preço</strong> no trilho ao lado; a regra abaixo filtra o catálogo de AWS, Azure e Google Cloud e mostra a conta aberta. O passo a passo da decisão aparece em <code>como chegamos aqui</code>.</p>
+    <h1>Ache a <strong>nuvem ideal</strong> em dois cliques.</h1>
+    <p class="lede">Escolha o negócio e o preço. A página filtra AWS, Azure e Google Cloud e mostra a conta aberta.</p>
 
     <div id="resultado" aria-live="polite">
       <div class="res-head">
         <h2>Sua recomendação</h2>
-        <span class="rule" id="res-rule">regra: área ∩ preço → menor custo → mais simples</span>
       </div>
       <div class="res-body" id="res-body">
         <div class="empty">
@@ -277,7 +276,7 @@
 <div class="page">
     <section class="block">
       <h2>Catálogo <strong>por preço</strong></h2>
-      <p class="sub">Todos os 18 serviços desta v1, só dos provedores do projeto (AWS, Azure, Google Cloud), agrupados pela faixa em que um uso pequeno se encaixa. Snapshot de <span class="mono">out/2026</span>; valores aproximados em reais — confirme sempre na página oficial ligada em cada linha.</p>
+      <p class="sub">Todos os 25 serviços desta v1, só dos provedores do projeto (AWS, Azure, Google Cloud), agrupados pela faixa em que um uso pequeno se encaixa. Snapshot de <span class="mono">out/2026</span>; valores aproximados em reais — confirme sempre na página oficial ligada em cada linha.</p>
       <div id="tiers"></div>
     </section>
 </div>
@@ -349,10 +348,10 @@ const CATALOGO = [
   /* --- hospedar site --- */
   {id:"azure-swa", provedor:"Azure", nome:"Static Web Apps", areas:["site"], gratis:"sempre", min:0, max:20, complexidade:1, frase:"assistente de poucos cliques, sem servidor para cuidar", gratuidade:"Plano gratuito generoso para sites estáticos", doc:"https://azure.microsoft.com/pt-br/products/app-service/static", preco:"https://azure.microsoft.com/pt-br/pricing/details/app-service/static/"},
   {id:"gcp-firebase-hosting", provedor:"Google Cloud", nome:"Firebase Hosting", areas:["site"], gratis:"sempre", min:0, max:30, complexidade:1, frase:"publica com um comando, certificado incluso", gratuidade:"Cota gratuita mensal para hospedagem", doc:"https://firebase.google.com/docs/hosting", preco:"https://firebase.google.com/pricing"},
-  {id:"gcp-cloud-run", provedor:"Google Cloud", nome:"Cloud Run", areas:["site"], gratis:"sempre", min:0, max:60, complexidade:3, frase:"roda seu app em container e zera a conta parado", gratuidade:"2 milhões de requisições/mês sempre grátis", doc:"https://cloud.google.com/run/docs", preco:"https://cloud.google.com/run/pricing"},
-  {id:"azure-app-service", provedor:"Azure", nome:"App Service", areas:["site"], gratis:"sempre", min:0, max:80, complexidade:2, frase:"painel guiado, do grátis ao pago sem migrar", gratuidade:"Plano F1 gratuito com limites", doc:"https://azure.microsoft.com/pt-br/products/app-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/app-service/windows/"},
+  {id:"gcp-cloud-run", provedor:"Google Cloud", nome:"Cloud Run", areas:["site","app"], gratis:"sempre", min:0, max:60, complexidade:3, frase:"roda seu app em container e zera a conta parado", gratuidade:"2 milhões de requisições/mês sempre grátis", doc:"https://cloud.google.com/run/docs", preco:"https://cloud.google.com/run/pricing"},
+  {id:"azure-app-service", provedor:"Azure", nome:"App Service", areas:["site","app"], gratis:"sempre", min:0, max:80, complexidade:2, frase:"painel guiado, do grátis ao pago sem migrar", gratuidade:"Plano F1 gratuito com limites", doc:"https://azure.microsoft.com/pt-br/products/app-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/app-service/windows/"},
   {id:"aws-amplify", provedor:"AWS", nome:"Amplify Hosting", areas:["site"], gratis:"temporario", min:0, max:45, complexidade:2, frase:"liga o repositório e publica sozinho", gratuidade:"12 meses grátis para conta nova, depois por uso", doc:"https://aws.amazon.com/pt/amplify/", preco:"https://aws.amazon.com/pt/amplify/pricing/"},
-  {id:"aws-lightsail", provedor:"AWS", nome:"Lightsail", areas:["site"], gratis:"temporario", min:25, max:60, complexidade:3, frase:"servidor com preço fixo, como um aluguel", gratuidade:"Primeiros meses grátis para conta nova", doc:"https://aws.amazon.com/pt/lightsail/", preco:"https://aws.amazon.com/pt/lightsail/pricing/"},
+  {id:"aws-lightsail", provedor:"AWS", nome:"Lightsail", areas:["site","app"], gratis:"temporario", min:25, max:60, complexidade:3, frase:"servidor com preço fixo, como um aluguel", gratuidade:"Primeiros meses grátis para conta nova", doc:"https://aws.amazon.com/pt/lightsail/", preco:"https://aws.amazon.com/pt/lightsail/pricing/"},
   /* --- banco de dados --- */
   {id:"gcp-firestore", provedor:"Google Cloud", nome:"Firestore", areas:["banco"], gratis:"sempre", min:0, max:40, complexidade:2, frase:"banco pronto, com cota diária gratuita", gratuidade:"Leituras e escrita gratuitas por dia", doc:"https://cloud.google.com/firestore/docs", preco:"https://cloud.google.com/firestore/pricing"},
   {id:"aws-dynamodb", provedor:"AWS", nome:"DynamoDB", areas:["banco"], gratis:"sempre", min:0, max:50, complexidade:3, frase:"banco rápido da Amazon com nível sempre grátis", gratuidade:"25 GB sempre grátis", doc:"https://aws.amazon.com/pt/dynamodb/", preco:"https://aws.amazon.com/pt/dynamodb/pricing/"},
@@ -366,20 +365,29 @@ const CATALOGO = [
   {id:"gcp-vertex", provedor:"Google Cloud", nome:"Vertex AI", areas:["ia"], gratis:"nao", min:40, max:700, complexidade:4, frase:"treino e ajuste de modelos por hora de máquina", gratuidade:"Sem nível gratuito permanente", doc:"https://cloud.google.com/vertex-ai/docs", preco:"https://cloud.google.com/vertex-ai/pricing"},
   {id:"azure-openai", provedor:"Azure", nome:"Azure OpenAI / Foundry", areas:["ia"], gratis:"nao", min:30, max:600, complexidade:3, frase:"usa modelo pronto por chamada, sem treinar", gratuidade:"Sem nível gratuito permanente", doc:"https://azure.microsoft.com/pt-br/products/ai-services/openai-service", preco:"https://azure.microsoft.com/pt-br/pricing/details/cognitive-services/openai-service/"},
   {id:"aws-ec2-gpu", provedor:"AWS", nome:"EC2 com GPU", areas:["ia"], gratis:"nao", min:150, max:1500, complexidade:5, frase:"máquina com placa de vídeo, a mais técnica e cara", gratuidade:"Sem nível gratuito", doc:"https://aws.amazon.com/pt/ec2/instance-types/", preco:"https://aws.amazon.com/pt/ec2/pricing/on-demand/"},
-  {id:"gcp-gpu", provedor:"Google Cloud", nome:"Compute Engine com GPU", areas:["ia"], gratis:"nao", min:120, max:1200, complexidade:5, frase:"máquina com GPU no Google, cobra por minuto", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/compute/docs/gpus", preco:"https://cloud.google.com/compute/pricing"}
+  {id:"gcp-gpu", provedor:"Google Cloud", nome:"Compute Engine com GPU", areas:["ia"], gratis:"nao", min:120, max:1200, complexidade:5, frase:"máquina com GPU no Google, cobra por minuto", gratuidade:"Sem nível gratuito", doc:"https://cloud.google.com/compute/docs/gpus", preco:"https://cloud.google.com/compute/pricing"},
+  /* --- rodar app ou API --- */
+  {id:"aws-lambda", provedor:"AWS", nome:"Lambda", areas:["app"], gratis:"sempre", min:0, max:40, complexidade:3, frase:"roda seu código sem servidor, paga por execução", gratuidade:"1 milhão de execuções/mês sempre grátis", doc:"https://aws.amazon.com/pt/lambda/", preco:"https://aws.amazon.com/pt/lambda/pricing/"},
+  {id:"azure-functions", provedor:"Azure", nome:"Functions", areas:["app"], gratis:"sempre", min:0, max:40, complexidade:3, frase:"código sob demanda com cota mensal gratuita", gratuidade:"1 milhão de execuções/mês grátis", doc:"https://azure.microsoft.com/pt-br/products/functions", preco:"https://azure.microsoft.com/pt-br/pricing/details/functions/"},
+  {id:"gcp-app-engine", provedor:"Google Cloud", nome:"App Engine", areas:["site","app"], gratis:"sempre", min:0, max:50, complexidade:2, frase:"publica o app e esquece o servidor", gratuidade:"Cota diária gratuita", doc:"https://cloud.google.com/appengine/docs", preco:"https://cloud.google.com/appengine/pricing"},
+  {id:"aws-ec2", provedor:"AWS", nome:"EC2", areas:["app"], gratis:"temporario", min:40, max:150, complexidade:4, frase:"servidor flexível, o mais técnico de configurar", gratuidade:"Horas grátis para conta nova, depois por uso", doc:"https://aws.amazon.com/pt/ec2/", preco:"https://aws.amazon.com/pt/ec2/pricing/on-demand/"},
+  /* --- guardar arquivos --- */
+  {id:"aws-s3", provedor:"AWS", nome:"S3", areas:["arquivos"], gratis:"temporario", min:0, max:30, complexidade:2, frase:"guarda arquivos com link, paga pelo espaço", gratuidade:"5 GB grátis por 12 meses em conta nova", doc:"https://aws.amazon.com/pt/s3/", preco:"https://aws.amazon.com/pt/s3/pricing/"},
+  {id:"azure-blob", provedor:"Azure", nome:"Blob Storage", areas:["arquivos"], gratis:"temporario", min:0, max:30, complexidade:2, frase:"guarda-arquivos da Microsoft, com nível de entrada grátis", gratuidade:"5 GB grátis por 12 meses em conta nova", doc:"https://azure.microsoft.com/pt-br/products/storage/blobs", preco:"https://azure.microsoft.com/pt-br/pricing/details/storage/blobs/"},
+  {id:"gcp-cloud-storage", provedor:"Google Cloud", nome:"Cloud Storage", areas:["arquivos"], gratis:"sempre", min:0, max:30, complexidade:2, frase:"guarda arquivos no Google com cota sempre grátis", gratuidade:"5 GB sempre grátis", doc:"https://cloud.google.com/storage/docs", preco:"https://cloud.google.com/storage/pricing"}
 ];
 
-const AREAS = {site:"Hospedar site", banco:"Hospedar banco de dados", ia:"Treinamento de IA"};
+const AREAS = {site:"Hospedar site", app:"Rodar app ou API", banco:"Hospedar banco de dados", arquivos:"Guardar arquivos", ia:"Treinamento de IA", qualquer:"Qualquer um"};
 const PRECOS = {
+  qualquer:{rotulo:"Qualquer preço", teste:s=>true, desc:"sem filtro de preço"},
   gratis:{rotulo:"Gratuito", teste:s=>s.gratis==="sempre", desc:"só grátis para sempre"},
   ate50:{rotulo:"Até R$ 50", teste:s=>s.min<=50, desc:"começo dentro de R$ 50"},
   ate100:{rotulo:"Até R$ 100", teste:s=>s.min<=100, desc:"começo dentro de R$ 100"},
-  "por-uso":{rotulo:"Conforme o uso", teste:s=>true, desc:"tudo, paga o que usar"}
+  "por-uso":{rotulo:"Conforme o uso", teste:s=>true, desc:"preço varia com o consumo"}
 };
 
-let selArea = null, selPreco = null;
+let selArea = "qualquer", selPreco = "qualquer";
 const resBody = document.getElementById("res-body");
-const resRule = document.getElementById("res-rule");
 
 function brl(v){ return "R$ " + v; }
 function faixa(s){ return s.min===0 && s.max===0 ? "R$ 0" : s.min===0 ? "R$ 0 – " + brl(s.max) : brl(s.min) + " – " + brl(s.max); }
@@ -390,7 +398,7 @@ function filtrar(area, preco){
   const log = [];
   const cand = [];
   for(const s of CATALOGO){
-    if(!s.areas.includes(area)){ log.push({s, ok:false, motivo:"não atende a área " + AREAS[area]}); continue; }
+    if(area!=="qualquer" && !s.areas.includes(area)){ log.push({s, ok:false, motivo:"não atende a área " + AREAS[area]}); continue; }
     if(!t(s)){
       const motivo = preco==="gratis" ? "não é grátis para sempre" : ("começa em " + brl(s.min) + ", acima do teto");
       log.push({s, ok:false, motivo}); continue;
@@ -402,13 +410,13 @@ function filtrar(area, preco){
   return {candidatos:cand, log};
 }
 
-function motivoIdeal(s, outros){
+function motivoIdeal(s, outros, areaNome){
   const nomes = outros.map(o=>o.provedor+" "+o.nome).join(" e ");
   const base = s.min===0
     ? "começa em R$ 0 (" + s.gratuidade.toLowerCase() + ")"
     : "começa em " + brl(s.min) + "/mês em uso pequeno";
   const dif = "nível " + s.complexidade + " de configuração (" + s.frase + ")";
-  return "Para o seu recorte, " + base + ", com " + dif + (nomes ? ", à frente de " + nomes + "." : ".");
+  return "Para " + areaNome.toLowerCase() + ", " + base + ", com " + dif + (nomes ? ", à frente de " + nomes + "." : ".");
 }
 
 function render(){
@@ -417,12 +425,11 @@ function render(){
   document.getElementById("step-area").classList.toggle("done", !!selArea);
   document.getElementById("step-preco").classList.toggle("done", !!selPreco);
   if(!selArea || !selPreco){
-    resRule.textContent = "regra: área ∩ preço → menor custo → mais simples";
-    resBody.innerHTML = '<div class="empty"><p>Escolha a <strong>área</strong> e o <strong>preço</strong> no trilho ao lado. Assim que os dois estiverem marcados, a nuvem ideal aparece aqui com o motivo e as alternativas.</p></div>';
+    resBody.innerHTML = '<div class="empty"><p>Escolha o negócio e o preço no trilho ao lado.</p></div>';
     return;
   }
   const {candidatos, log} = filtrar(selArea, selPreco);
-  resRule.textContent = "regra: " + AREAS[selArea] + " ∩ " + PRECOS[selPreco].rotulo + " → menor custo → mais simples";
+  const areaNome = s => selArea === "qualquer" ? s.areas.map(a=>AREAS[a]).join(" + ") : AREAS[selArea];
   if(candidatos.length===0){
     const fora = log.filter(l=>!l.ok).length;
     resBody.innerHTML =
@@ -439,9 +446,9 @@ function render(){
   const [ideal, ...alts] = candidatos.slice(0,3);
   resBody.innerHTML =
     '<article class="ideal"><span class="tag">Nuvem ideal</span>' +
-    '<h3>'+esc(ideal.provedor)+" "+esc(ideal.nome)+' <span>· '+AREAS[selArea]+'</span></h3>' +
+    '<h3>'+esc(ideal.provedor)+" "+esc(ideal.nome)+' <span>· '+esc(areaNome(ideal))+'</span></h3>' +
     '<p class="price">'+faixa(ideal)+'/mês em uso pequeno</p>' +
-    '<dl><dt>Por que esta</dt><dd>'+esc(motivoIdeal(ideal, alts))+'</dd>' +
+    '<dl><dt>Por que esta</dt><dd>'+esc(motivoIdeal(ideal, alts, areaNome(ideal)))+'</dd>' +
     '<dt>Gratuidade</dt><dd>'+esc(ideal.gratuidade)+'</dd>' +
     '<dt>Configuração</dt><dd>Nível '+ideal.complexidade+'/5 — '+esc(ideal.frase)+'.</dd>' +
     '<dt>Comece por aqui</dt><dd><a href="'+ideal.doc+'">Documentação oficial</a> · <a href="'+ideal.preco+'">Página de preços</a></dd></dl></article>' +
@@ -477,6 +484,7 @@ function mostrarAba(nome, trocarHash){
 }
 document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click", ()=>mostrarAba(b.getAttribute("data-tab"), true)));
 mostrarAba(abaAtual(), false);
+render();
 
 /* Chat-maquete: resposta fixa, sem fingir IA. */
 const RESPOSTA_FIXA = "O assistente automático chega na v2 — por enquanto eu não busco sozinho. Use os 2 passos ao lado (área + preço) que a recomendação aparece ali em cima, com a conta aberta. Se já escolheu, me diga o que apareceu que eu confirmo o caminho.";
